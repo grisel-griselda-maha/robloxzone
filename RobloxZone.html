@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <title>RobloxZone base</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+</head>
+<body>
+
+  <!-- Header area -->
+  <header>
+    <button id="aboutBtn">About Us</button>
+    <h1 id="brand">RobloxZone</h1>
+    <button id="menuBtn">Menu</button>
+  </header>
+
+  <!-- Simple dropdown menu -->
+  <nav id="mainMenu" hidden>
+    <ul>
+      <li><button data-page="home">Home</button></li>
+      <li><button data-page="top3">Top 3 Game</button></li>
+      <li><button data-page="recommendation">Roblox Recommendation</button></li>
+      <li><button data-page="random">Random Roblox Generator</button></li>
+      <li><button data-page="profile">Profile</button></li>
+    </ul>
+  </nav>
+
+  <!-- Pages container -->
+  <main>
+    <!-- Home -->
+    <section id="homePage">
+      <h2>Selamat datang</h2>
+      <p>Selamat datang di RobloxZone. Temukan rekomendasi game Roblox yang sesuai mood mu</p>
+    </section>
+
+    <!-- Top 3 -->
+    <section id="top3Page" hidden>
+      <h2>Top 3 Rekomendasi Game Roblox</h2>
+      <div id="top3List"></div>
+    </section>
+
+    <!-- Recommendation with genre list -->
+    <section id="recommendationPage" hidden>
+      <h2>Roblox Recommendation</h2>
+      <p>Pilih genre</p>
+      <ul id="genreList"></ul>
+      <div id="genreContent" hidden>
+        <h3 id="genreTitle"></h3>
+        <div id="genreGames"></div>
+        <button id="backToGenres">Kembali ke daftar genre</button>
+      </div>
+    </section>
+
+    <!-- Random generator -->
+    <section id="randomPage" hidden>
+      <h2>Random Roblox Generator</h2>
+      <button id="generateBtn">Generate Game Random</button>
+      <div id="randomResult"></div>
+    </section>
+
+    <!-- Profile page -->
+    <section id="profilePage" hidden>
+      <h2>Profil Tim</h2>
+      <div id="profiles"></div>
+    </section>
+  </main>
+
+  <script>
+    // ===== data =====
+    // contoh game list. edit tambah hapus sesuai kebutuhan
+    const GAMES = [
+      {
+        id: 'g1',
+        name: 'Adrift Isle',
+        description: 'Petualangan eksplorasi pulau pulau dengan quest ringan',
+        genre: 'Adventure',
+        logo: svgPlaceholder('AI'),
+        robloxUrl: 'https://www.roblox.com/games/1'
+      },
+      {
+        id: 'g2',
+        name: 'Cafe Life',
+        description: 'Simulasi hidup santai dan bangun kafe impian',
+        genre: 'Lifestyle',
+        logo: svgPlaceholder('CL'),
+        robloxUrl: 'https://www.roblox.com/games/2'
+      },
+      {
+        id: 'g3',
+        name: 'Haunted Hollow',
+        description: 'Horror experience yang bikin jantung deg degan',
+        genre: 'Horror',
+        logo: svgPlaceholder('HH'),
+        robloxUrl: 'https://www.roblox.com/games/3'
+      },
+      {
+        id: 'g4',
+        name: 'Super Simulator X',
+        description: 'Simulator dengan progression yang addicting',
+        genre: 'Simulator',
+        logo: svgPlaceholder('SS'),
+        robloxUrl: 'https://www.roblox.com/games/4'
+      },
+      {
+        id: 'g5',
+        name: 'Street Sports Arena',
+        description: 'Game sports cepat dan kompetitif',
+        genre: 'Sports',
+        logo: svgPlaceholder('SSa'),
+        robloxUrl: 'https://www.roblox.com/games/5'
+      },
+      {
+        id: 'g6',
+        name: 'Action Rush',
+        description: 'Fast paced action dengan mode co op',
+        genre: 'Action',
+        logo: svgPlaceholder('AR'),
+        robloxUrl: 'https://www.roblox.com/games/6'
+      },
+      {
+        id: 'g7',
+        name: 'Hidden Cove Adventures',
+        description: 'Adventure map dengan puzzle dan lore',
+        genre: 'Adventure',
+        logo: svgPlaceholder('HC'),
+        robloxUrl: 'https://www.roblox.com/games/7'
+      }
+    ];
+
+    // profil tim
+    const PROFILES = [
+      {
+        avatar: svgPlaceholder('PM'),
+        robloxId: 'RobloxID_PM',
+        fullName: 'Griselda Elizabeth Maha',
+        role: 'Product Manager',
+        instagram: 'https://instagram.com/example_pm'
+      },
+      {
+        avatar: svgPlaceholder('D1'),
+        robloxId: 'RobloxID_Anastasya',
+        fullName: 'Anastasya',
+        role: 'Developer',
+        instagram: 'https://instagram.com/example_dev1'
+      },
+      {
+        avatar: svgPlaceholder('D2'),
+        robloxId: 'RobloxID_Navisa',
+        fullName: 'Navisa',
+        role: 'Developer',
+        instagram: 'https://instagram.com/example_dev2'
+      },
+      {
+        avatar: svgPlaceholder('D3'),
+        robloxId: 'RobloxID_Afifah',
+        fullName: 'Afifah',
+        role: 'Developer',
+        instagram: 'https://instagram.com/example_dev3'
+      },
+      {
+        avatar: svgPlaceholder('D4'),
+        robloxId: 'RobloxID_Rafny',
+        fullName: 'Rafny',
+        role: 'Developer',
+        instagram: 'https://instagram.com/example_dev4'
+      }
+    ];
+
+    // daftar genre sesuai spec
+    const GENRES = ['Lifestyle', 'Horror', 'Adventure', 'Simulator', 'Sports', 'Action'];
+
+    // ===== helpers =====
+    function svgPlaceholder(text) {
+      // simple SVG data URI to use as placeholder image
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='120' height='80'>
+        <rect width='100%' height='100%' fill='#eee'/>
+        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='18' fill='#666'>${escapeHtml(text)}</text>
+      </svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, function(c) {
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+      });
+    }
+
+    // ===== DOM refs =====
+    const menuBtn = document.getElementById('menuBtn');
+    const mainMenu = document.getElementById('mainMenu');
+    const aboutBtn = document.getElementById('aboutBtn');
+    const pages = {
+      home: document.getElementById('homePage'),
+      top3: document.getElementById('top3Page'),
+      recommendation: document.getElementById('recommendationPage'),
+      random: document.getElementById('randomPage'),
+      profile: document.getElementById('profilePage')
+    };
+
+    // ===== nav and page logic =====
+    function showPage(key) {
+      Object.keys(pages).forEach(k => {
+        pages[k].hidden = (k !== key);
+      });
+      // hide menu when user navigates
+      mainMenu.hidden = true;
+    }
+
+    menuBtn.addEventListener('click', () => {
+      mainMenu.hidden = !mainMenu.hidden;
+    });
+
+    // menu buttons
+    mainMenu.querySelectorAll('button[data-page]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = btn.getAttribute('data-page');
+        showPage(page);
+      });
+    });
+
+    aboutBtn.addEventListener('click', () => {
+      showPage('profile');
+    });
+
+    // initialize default page
+    showPage('home');
+
+    // ===== top 3 rendering =====
+    function renderTop3() {
+      const container = document.getElementById('top3List');
+      container.innerHTML = '';
+      // simple rule: pick top 3 from start of GAMES array
+      const top = GAMES.slice(0, 3);
+      top.forEach(game => {
+        const el = document.createElement('article');
+        const img = document.createElement('img');
+        img.src = game.logo;
+        img.alt = game.name + ' logo';
+        img.width = 120;
+        img.height = 80;
+        const title = document.createElement('h3');
+        title.textContent = game.name;
+        const desc = document.createElement('p');
+        desc.textContent = game.description;
+        const link = document.createElement('a');
+        link.href = game.robloxUrl;
+        link.target = '_blank';
+        link.textContent = 'Buka di Roblox';
+        el.appendChild(img);
+        el.appendChild(title);
+        el.appendChild(desc);
+        el.appendChild(link);
+        container.appendChild(el);
+      });
+    }
+    renderTop3();
+
+    // ===== genres rendering =====
+    const genreList = document.getElementById('genreList');
+    const genreContent = document.getElementById('genreContent');
+    const genreTitle = document.getElementById('genreTitle');
+    const genreGames = document.getElementById('genreGames');
+    const backToGenres = document.getElementById('backToGenres');
+
+    function renderGenreList() {
+      genreList.innerHTML = '';
+      GENRES.forEach(g => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.textContent = g;
+        btn.addEventListener('click', () => openGenrePage(g));
+        li.appendChild(btn);
+        genreList.appendChild(li);
+      });
+    }
+    renderGenreList();
+
+    function openGenrePage(genre) {
+      genreTitle.textContent = 'Genre ' + genre;
+      genreGames.innerHTML = '';
+      const games = GAMES.filter(x => x.genre === genre);
+      if (games.length === 0) {
+        genreGames.textContent = 'Belum ada rekomendasi untuk genre ini';
+      } else {
+        games.forEach(game => {
+          const card = document.createElement('div');
+          const img = document.createElement('img');
+          img.src = game.logo;
+          img.alt = game.name + ' logo';
+          img.width = 120;
+          img.height = 80;
+          const h = document.createElement('h4');
+          h.textContent = game.name;
+          const p = document.createElement('p');
+          p.textContent = game.description;
+          const a = document.createElement('a');
+          a.href = game.robloxUrl;
+          a.target = '_blank';
+          a.textContent = 'Buka di Roblox';
+          card.appendChild(img);
+          card.appendChild(h);
+          card.appendChild(p);
+          card.appendChild(a);
+          genreGames.appendChild(card);
+        });
+      }
+      genreContent.hidden = false;
+      // optionally hide the genre list
+      genreList.hidden = true;
+    }
+
+    backToGenres.addEventListener('click', () => {
+      genreContent.hidden = true;
+      genreList.hidden = false;
+    });
+
+    // ===== random generator =====
+    const generateBtn = document.getElementById('generateBtn');
+    const randomResult = document.getElementById('randomResult');
+
+    generateBtn.addEventListener('click', () => {
+      if (GAMES.length === 0) {
+        randomResult.textContent = 'Daftar game kosong';
+        return;
+      }
+      const idx = Math.floor(Math.random() * GAMES.length);
+      const game = GAMES[idx];
+      randomResult.innerHTML = '';
+      const title = document.createElement('h3');
+      title.textContent = game.name;
+      const desc = document.createElement('p');
+      desc.textContent = game.description;
+      const link = document.createElement('a');
+      link.href = game.robloxUrl;
+      link.target = '_blank';
+      link.textContent = 'Buka di Roblox';
+      randomResult.appendChild(title);
+      randomResult.appendChild(desc);
+      randomResult.appendChild(link);
+    });
+
+    // ===== profiles rendering =====
+    function renderProfiles() {
+      const container = document.getElementById('profiles');
+      container.innerHTML = '';
+      PROFILES.forEach(p => {
+        const box = document.createElement('div');
+        const img = document.createElement('img');
+        img.src = p.avatar;
+        img.alt = p.fullName + ' avatar';
+        img.width = 120;
+        img.height = 80;
+        const name = document.createElement('h4');
+        name.textContent = p.fullName;
+        const role = document.createElement('p');
+        role.textContent = p.role;
+        const rid = document.createElement('p');
+        rid.textContent = 'Roblox ID ' + p.robloxId;
+        const ig = document.createElement('a');
+        ig.href = p.instagram;
+        ig.target = '_blank';
+        ig.textContent = 'Instagram';
+        box.appendChild(img);
+        box.appendChild(name);
+        box.appendChild(role);
+        box.appendChild(rid);
+        box.appendChild(ig);
+        container.appendChild(box);
+      });
+    }
+    renderProfiles();
+
+    // small UX improvement
+    // when user navigates to recommendation page, ensure genre content reset
+    document.querySelector('button[data-page="recommendation"]').addEventListener('click', () => {
+      genreContent.hidden = true;
+      genreList.hidden = false;
+    });
+
+    // End of script
+  </script>
+</body>
+</html>
