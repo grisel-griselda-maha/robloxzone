@@ -56,6 +56,10 @@ h2 {
   text-align: center;
 }
 
+.center {
+  text-align: center;
+}
+
 .games, .genres, .profiles {
   display: flex;
   flex-wrap: wrap;
@@ -70,6 +74,8 @@ h2 {
   width: 180px;
   text-align: center;
   background: white;
+  text-decoration: none;
+  color: black;
 }
 
 button {
