@@ -1,278 +1,258 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RobloxZone</title>
   <style>
     * {
+      scroll-behavior: smooth;
+      font-family: Arial, sans-serif;
+    }
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
     }
-
-    body {
-      background-color: #f4f4f4;
-      color: #333;
-    }
-
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #ff4757;
-      padding: 10px 20px;
-      color: white;
+      padding: 15px 40px;
+      background-color: #f2f2f2;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
     }
-
     header h1 {
       font-size: 20px;
+      color: #000;
     }
-
-    nav {
-      position: relative;
-    }
-
-    nav button {
-      background: #333;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
     nav ul {
-      position: absolute;
-      top: 40px;
-      right: 0;
       list-style: none;
-      background: white;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+    }
+    section {
+      min-height: 100vh;
+      padding: 100px 50px;
+      box-sizing: border-box;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Top 3 Game */
+    .game-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .game {
       border: 1px solid #ccc;
-      border-radius: 4px;
-      display: none;
-    }
-
-    nav ul li {
-      padding: 10px;
-      cursor: pointer;
-      color: black; /* warna teks menu hitam */
-    }
-
-    nav ul li:hover {
-      background: #eee;
-      color: black;
-    }
-
-    .container {
-      padding: 20px;
+      border-radius: 10px;
+      padding: 15px;
+      width: 250px;
       text-align: center;
     }
-
-    .hidden {
-      display: none;
-    }
-
-    .game-card {
-      background: white;
-      margin: 10px;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      display: inline-block;
-      width: 250px;
-    }
-
-    .game-card img {
+    .game img {
       width: 100%;
       height: 150px;
-      border-radius: 6px;
       object-fit: cover;
-    }
-
-    .profile-card {
-      background: white;
-      margin: 15px;
-      padding: 15px;
       border-radius: 8px;
-      display: inline-block;
-      width: 220px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .profile-card img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      margin-bottom: 10px;
+    /* Genre */
+    .genre-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
     }
-
-    .generator-btn {
-      background: #ff4757;
-      color: white;
-      border: none;
+    .genre-buttons button {
       padding: 10px 20px;
-      border-radius: 4px;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
+      background-color: #e0e0e0;
     }
 
-    footer {
-      margin-top: 30px;
-      padding: 10px;
-      background: #ff4757;
-      color: white;
+    /* Generator */
+    #randomGame {
       text-align: center;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    #generatorBtn {
+      display: block;
+      margin: 0 auto;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #000;
+      color: #fff;
+    }
+
+    /* Profile */
+    .profiles {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .profile {
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      width: 200px;
+    }
+    .profile img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
+
   <header>
-    <h1>About Us</h1>
+    <h1>RobloxZone</h1>
     <nav>
-      <button id="menuBtn">Menu</button>
-      <ul id="menuList">
-        <li onclick="showPage('home')">Home</li>
-        <li onclick="showPage('top3')">Top 3 Game</li>
-        <li onclick="showPage('recommendation')">Roblox Recommendation</li>
-        <li onclick="showPage('generator')">Random Generator</li>
-        <li onclick="showPage('profile')">Profile</li>
+      <ul>
+        <li><a href="#home">Beranda</a></li>
+        <li><a href="#top3">Top 3 Game</a></li>
+        <li><a href="#recommend">Rekomendasi</a></li>
+        <li><a href="#generator">Generator</a></li>
+        <li><a href="#profile">Profil</a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
-    <!-- Home -->
-    <section id="home" class="container">
-      <h2>Selamat Datang di RobloxZone!</h2>
-      <p>Tempat terbaik untuk menemukan rekomendasi game Roblox</p>
-    </section>
+  <!-- Home -->
+  <section id="home">
+    <h2>Selamat Datang di RobloxZone</h2>
+    <p style="text-align:center;">Temukan rekomendasi game Roblox terbaik dari berbagai genre!</p>
+  </section>
 
-    <!-- Top 3 -->
-    <section id="top3" class="container hidden">
-      <h2>Top 3 Game Roblox</h2>
-      <div class="game-card">
-        <img src="https://placehold.co/250x150" alt="Game 1">
+  <!-- Top 3 Game -->
+  <section id="top3">
+    <h2>Top 3 Game Roblox</h2>
+    <div class="game-list">
+      <div class="game">
+        <img src="https://via.placeholder.com/250x150" alt="Game 1">
         <h3>Brookhaven 🏡RP</h3>
-        <p>Game roleplay populer dengan kebebasan tanpa batas!</p>
+        <p>Game roleplay populer di Roblox dengan kebebasan eksplorasi tanpa batas.</p>
       </div>
-      <div class="game-card">
-        <img src="https://placehold.co/250x150" alt="Game 2">
-        <h3>Doors 🚪</h3>
-        <p>Game horror penuh kejutan dan misteri di tiap pintu.</p>
-      </div>
-      <div class="game-card">
-        <img src="https://placehold.co/250x150" alt="Game 3">
+      <div class="game">
+        <img src="https://via.placeholder.com/250x150" alt="Game 2">
         <h3>Adopt Me!</h3>
-        <p>Bangun keluarga virtual dan rawat hewan peliharaan lucu!</p>
+        <p>Bangun rumah, adopsi hewan, dan kembangkan dunia imut bersama teman.</p>
       </div>
-    </section>
-
-    <!-- Recommendation -->
-    <section id="recommendation" class="container hidden">
-      <h2>Pilih Genre Game Roblox</h2>
-      <div>
-        <button onclick="showGenre('Lifestyle')">Lifestyle</button>
-        <button onclick="showGenre('Horror')">Horror</button>
-        <button onclick="showGenre('Adventure')">Adventure</button>
-        <button onclick="showGenre('Simulator')">Simulator</button>
-        <button onclick="showGenre('Sports')">Sports</button>
-        <button onclick="showGenre('Action')">Action</button>
+      <div class="game">
+        <img src="https://via.placeholder.com/250x150" alt="Game 3">
+        <h3>Doors 🚪</h3>
+        <p>Game horror menegangkan dengan teka-teki dan misteri di setiap pintu.</p>
       </div>
-      <div id="genreContainer" style="margin-top:20px;"></div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Random Generator -->
-    <section id="generator" class="container hidden">
-      <h2>Random Roblox Game Generator</h2>
-      <button class="generator-btn" onclick="generateGame()">Generate Game!</button>
-      <p id="randomResult" style="margin-top:15px;"></p>
-    </section>
+  <!-- Recommendation -->
+  <section id="recommend">
+    <h2>Rekomendasi Berdasarkan Genre</h2>
+    <div class="genre-buttons">
+      <button onclick="showGenre('Lifestyle')">Lifestyle</button>
+      <button onclick="showGenre('Horror')">Horror</button>
+      <button onclick="showGenre('Adventure')">Adventure</button>
+      <button onclick="showGenre('Simulator')">Simulator</button>
+      <button onclick="showGenre('Sports')">Sports</button>
+      <button onclick="showGenre('Action')">Action</button>
+    </div>
+    <div id="genreResult" style="text-align:center; margin-top:30px;"></div>
+  </section>
 
-    <!-- Profile -->
-    <section id="profile" class="container hidden">
-      <h2>Profil Anggota</h2>
+  <!-- Generator -->
+  <section id="generator">
+    <h2>Random Roblox Generator</h2>
+    <button id="generatorBtn">Generate Game</button>
+    <div id="randomGame"></div>
+  </section>
 
-      <div class="profile-card">
-        <img src="https://placehold.co/150x150" alt="Avatar">
-        <h3>Griselda Elizabeth Maha</h3>
-        <p>Posisi: Product Manager</p>
-        <p>ID Roblox: @griseldaM</p>
+  <!-- Profile -->
+  <section id="profile">
+    <h2>Profil Anggota</h2>
+    <div class="profiles">
+      <div class="profile">
+        <img src="https://via.placeholder.com/100" alt="Avatar">
+        <p><strong>Griselda</strong></p>
+        <p>Product Manager</p>
+        <p>ID Roblox: @griseldaZone</p>
         <a href="#">Instagram</a>
       </div>
-
-      <div class="profile-card">
-        <img src="https://placehold.co/150x150" alt="Avatar">
-        <h3>Anastasya</h3>
-        <p>Posisi: Developer</p>
+      <div class="profile">
+        <img src="https://via.placeholder.com/100" alt="Avatar">
+        <p><strong>Anastasya</strong></p>
+        <p>Developer</p>
         <p>ID Roblox: @anastasyaDev</p>
         <a href="#">Instagram</a>
       </div>
-
-      <div class="profile-card">
-        <img src="https://placehold.co/150x150" alt="Avatar">
-        <h3>Navisa</h3>
-        <p>Posisi: Developer</p>
-        <p>ID Roblox: @navisa</p>
+      <div class="profile">
+        <img src="https://via.placeholder.com/100" alt="Avatar">
+        <p><strong>Navisa</strong></p>
+        <p>Developer</p>
+        <p>ID Roblox: @navisaDev</p>
         <a href="#">Instagram</a>
       </div>
-
-      <div class="profile-card">
-        <img src="https://placehold.co/150x150" alt="Avatar">
-        <h3>Afifah</h3>
-        <p>Posisi: Developer</p>
-        <p>ID Roblox: @afifahRblx</p>
+      <div class="profile">
+        <img src="https://via.placeholder.com/100" alt="Avatar">
+        <p><strong>Afifah</strong></p>
+        <p>Developer</p>
+        <p>ID Roblox: @afifahDev</p>
         <a href="#">Instagram</a>
       </div>
-
-      <div class="profile-card">
-        <img src="https://placehold.co/150x150" alt="Avatar">
-        <h3>Rafny</h3>
-        <p>Posisi: Developer</p>
+      <div class="profile">
+        <img src="https://via.placeholder.com/100" alt="Avatar">
+        <p><strong>Rafny</strong></p>
+        <p>Developer</p>
         <p>ID Roblox: @rafnyDev</p>
         <a href="#">Instagram</a>
       </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 RobloxZone Team</p>
-  </footer>
+    </div>
+  </section>
 
   <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const menuList = document.getElementById('menuList');
-
-    menuBtn.addEventListener('click', () => {
-      menuList.style.display = menuList.style.display === 'block' ? 'none' : 'block';
-    });
-
-    function showPage(pageId) {
-      document.querySelectorAll('section').forEach(sec => sec.classList.add('hidden'));
-      document.getElementById(pageId).classList.remove('hidden');
-      menuList.style.display = 'none';
+    const genreData = {
+      Lifestyle: "🏡 Brookhaven RP - Dunia bebas untuk roleplay!",
+      Horror: "👻 Doors - Rasakan sensasi horror menegangkan!",
+      Adventure: "🗺️ Shindo Life - Petualangan ninja yang seru!",
+      Simulator: "⚙️ Bee Swarm Simulator - Kumpulkan madu dan lebah!",
+      Sports: "⚽ Goal Kick Simulator - Tunjukkan kemampuan sepak bola!",
+      Action: "💥 Arsenal - Game tembak-menembak cepat penuh aksi!"
     }
-
-    const genreGames = {
-      Lifestyle: ['Brookhaven 🏡RP', 'Fashion Famous', 'Royale High'],
-      Horror: ['Doors', 'The Mimic', 'Apeirophobia'],
-      Adventure: ['Blox Fruits', 'Treasure Hunt Simulator', 'Tower of Hell'],
-      Simulator: ['Bee Swarm Simulator', 'Pet Simulator X', 'Mining Simulator 2'],
-      Sports: ['Goal Kick Simulator', 'Hoops Life', 'Robloxian Sports'],
-      Action: ['Arsenal', 'BedWars', 'Combat Warriors']
-    };
 
     function showGenre(genre) {
-      const container = document.getElementById('genreContainer');
-      container.innerHTML = `<h3>${genre} Games</h3>` + genreGames[genre]
-        .map(game => `<p><a href="#" target="_blank">${game}</a></p>`).join('');
+      document.getElementById('genreResult').textContent = genreData[genre];
     }
 
-    function generateGame() {
-      const allGames = [].concat(...Object.values(genreGames));
-      const random = allGames[Math.floor(Math.random() * allGames.length)];
-      document.getElementById('randomResult').innerText = `Kamu dapat: ${random}!`;
-    }
+    const games = Object.values(genreData);
+    document.getElementById('generatorBtn').addEventListener('click', () => {
+      const random = games[Math.floor(Math.random() * games.length)];
+      document.getElementById('randomGame').textContent = random;
+    });
   </script>
+
 </body>
 </html>
