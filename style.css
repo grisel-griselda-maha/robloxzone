@@ -1,5 +1,6 @@
-html, body {
+html {
   height: 100%;
+  background: linear-gradient(180deg, #FFEE32, #C86BFA);
   background-attachment: fixed;
 }
 
@@ -8,7 +9,7 @@ body {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
-  background: linear-gradient(135deg, #FFEE32, #C86BFA);
+  background: transparent;
   min-height: 100vh;
 }
 
