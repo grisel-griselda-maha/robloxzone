@@ -38,9 +38,10 @@ nav {
   position: absolute;
   top: 60px;
   right: 20px;
-  background: white;
+  background: #FFEE32;
   border: 1px solid #ccc;
   padding: 10px;
+  border-radius: 8px;
 }
 
 nav a {
