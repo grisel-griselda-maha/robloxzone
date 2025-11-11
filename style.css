@@ -98,20 +98,37 @@ button:hover {
   background: #ddd;
 }
 
+/* Tombol panah kiri-kanan untuk rekomendasi genre */
 .arrow-nav {
-  position: fixed;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  position: relative;
+  width: 100%;
 }
 
-
-.arrow-nav button {
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #FFEE32;
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
   font-size: 20px;
-  margin-left: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.arrow:hover {
+  background-color: #C86BFA;
+  color: white;
+}
+
+.arrow.left {
+  left: -20px;
+}
+
+.arrow.right {
+  right: -20px;
 }
 
 .logo {
