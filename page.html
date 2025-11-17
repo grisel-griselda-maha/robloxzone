@@ -19,7 +19,6 @@
         body {
             font-family: var(--font-main);
             margin: 0; padding: 0;
-            /* REVISI: Path diubah ke .webp */
             background-image: url('BACKGROUND.webp'); 
             background-size: cover; background-position: center;    
             background-repeat: no-repeat;
@@ -615,6 +614,174 @@
         #teamModal .arrow-left { left: 15px; }
         #teamModal .arrow-right { right: 15px; }
 
+
+        /* -------------------------------------------
+        --- REVISI: MEDIA QUERIES UNTUK MOBILE ---
+        -------------------------------------------
+        */
+        @media (max-width: 800px) {
+            
+            /* Kembalikan kursor normal di HP */
+            body {
+                cursor: auto; 
+            }
+            /* Sembunyikan kursor kustom */
+            #customCursor, .cursor-trail {
+                display: none !important;
+            }
+
+            /* Kecilkan header */
+            header {
+                padding: 20px 5%;
+            }
+            .nav-link {
+                font-size: 1rem;
+                padding: 8px 15px;
+            }
+            #menuPopup {
+                top: 60px;
+            }
+
+            /* --- Home Section --- */
+            #home-section {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            .roblox-zone-logo {
+                position: relative; /* Hapus absolute */
+                left: auto;
+                top: auto;
+                transform: none; /* Hapus transform */
+                max-width: 90%;
+                margin-top: 20vh; /* Beri jarak dari atas */
+            }
+            .home-description {
+                position: relative; /* Hapus absolute */
+                top: auto;
+                left: auto;
+                transform: none; /* Hapus transform */
+                font-size: 1.5rem;
+                white-space: normal; /* Izinkan teks turun baris */
+                width: 90%;
+                margin-top: 20px;
+                animation: none; /* Matikan animasi di HP */
+            }
+
+            /* --- Pop-up Modals --- */
+            .modal-content {
+                padding: 20px;
+                width: 95vw;
+            }
+
+            /* --- Genre Page Pop-up --- */
+            #genrePage {
+                justify-content: flex-start;
+                padding-top: 20px;
+            }
+            .game-grid {
+                flex-direction: column; /* Tumpuk vertikal */
+                height: auto;
+                max-height: 70vh; /* Buat konten bisa di-scroll */
+                overflow-y: auto;
+                width: 90vw;
+                padding: 10px;
+            }
+            .genre-header {
+                margin-bottom: 20px;
+            }
+            .genre-title {
+                font-size: 2.5rem; /* Kecilkan judul */
+            }
+            .big-card-wrapper {
+                min-width: 100%;
+                height: 300px; /* Beri tinggi tetap untuk kartu besar */
+            }
+            .big-info-overlay {
+                padding: 20px;
+            }
+            #bigTitle {
+                font-size: 2rem !important;
+            }
+            #bigDesc {
+                font-size: 1rem !important;
+            }
+            .direct-play-btn {
+                font-size: 1.2rem;
+                padding: 10px 0;
+            }
+            .small-grid {
+                grid-template-rows: 1fr 1fr; /* 2 baris, 2 kolom tetap */
+                height: 300px; /* Beri tinggi agar 4 kotak muat */
+            }
+            .nav-arrow {
+                font-size: 3rem; /* Kecilkan panah */
+                left: 10px;
+            }
+            .arrow-right {
+                right: 10px;
+            }
+            .back-menu-btn {
+                font-size: 1.5rem;
+                padding: 15px 40px;
+                margin-top: 20px;
+            }
+
+            /* --- About Us Pop-up --- */
+            .team-modal-content {
+                max-width: 95vw;
+                height: 85vh; /* Beri tinggi */
+                overflow-y: auto; /* Buat bisa di-scroll */
+                padding: 20px;
+                padding-top: 40px; /* Ruang untuk tombol close */
+            }
+            .team-layout-grid {
+                flex-direction: column; /* Tumpuk vertikal */
+                gap: 20px;
+            }
+            .team-big-avatar {
+                flex: 1; /* Hapus lebar tetap */
+                width: 100%;
+            }
+            .team-details-grid {
+                grid-template-columns: 1fr; /* Tumpuk vertikal */
+                width: 100%;
+            }
+            .team-roblox-link {
+                font-size: 1.2rem;
+            }
+            /* Panah di dalam modal */
+            .modal-content .nav-arrow {
+                font-size: 2.5rem;
+            }
+            #teamModal .arrow-left { left: 5px; }
+            #teamModal .arrow-right { right: 5px; }
+            .modal-close-btn {
+                top: 10px;
+                right: 10px;
+            }
+
+            /* --- Randomizer --- */
+            .roulette-container {
+                height: 180px; /* Kecilkan tinggi roulette */
+            }
+            .roulette-card {
+                width: 140px; /* Kecilkan kartu */
+                height: 140px;
+            }
+            .btn-random-small {
+                font-size: 1.5rem;
+                padding: 10px 40px;
+            }
+
+            /* --- Section Titles --- */
+            .img-top-games { width: 300px; }
+            .img-recommendation { width: 350px; } 
+            .img-randomizer { width: 350px; }
+            .img-about { width: 300px; }
+        }
+
     </style>
 </head>
 <body>
@@ -797,7 +964,6 @@
     </div>
 
     <script>
-        // REVISI: Semua path C:/.../ diubah menjadi path relatif (hanya nama file)
         const db = {
             "Fashion": {
                 games: [
@@ -1076,7 +1242,7 @@
         const CARD_WIDTH = 180; 
         const CARD_GAP = 20;    
         const TOTAL_ITEM_WIDTH = CARD_WIDTH + CARD_GAP;
-        const VISIBLE_WIDTH = 1240; 
+        // REVISI: VISIBLE_WIDTH dihapus dari sini agar bisa dinamis
         
         let allGamesList = [];
         Object.keys(db).forEach(key => {
@@ -1084,6 +1250,11 @@
         });
 
         function startGacha() {
+            // REVISI: Ambil lebar kontainer secara dinamis
+            const rouletteContainer = document.querySelector('.roulette-container');
+            const VISIBLE_WIDTH = rouletteContainer.clientWidth; // Ini membuatnya responsif!
+            
+            // Ambil elemen lain
             const strip = document.getElementById('rouletteStrip');
             const btn = document.getElementById('spinBtn');
             const modal = document.getElementById('resultModal');
@@ -1120,11 +1291,19 @@
                 }
                 const card = document.createElement('div');
                 card.className = 'roulette-card';
+                // REVISI: Sesuaikan style kartu dengan CSS jika Anda mengubahnya
+                if (window.innerWidth <= 800) {
+                     card.style.width = '140px';
+                     card.style.height = '140px';
+                }
                 card.innerHTML = `<img src="${gameData.img}" alt="game">`;
                 strip.appendChild(card);
             }
 
-            const targetPosition = -(TARGET_INDEX * TOTAL_ITEM_WIDTH) + (VISIBLE_WIDTH / 2) - (CARD_WIDTH / 2);
+            // REVISI: Kalkulasi posisi berhenti sekarang dinamis
+            const cardWidthForCalc = (window.innerWidth <= 800) ? 140 : CARD_WIDTH;
+            const totalItemWidthForCalc = cardWidthForCalc + CARD_GAP;
+            const targetPosition = -(TARGET_INDEX * totalItemWidthForCalc) + (VISIBLE_WIDTH / 2) - (cardWidthForCalc / 2);
 
             setTimeout(() => {
                 strip.style.transition = 'transform 4s cubic-bezier(0.1, 0.7, 0.1, 1)';
@@ -1158,7 +1337,6 @@
 
 
         // --- Logika Pop-up 'About Us' ---
-        // REVISI: Path diubah ke .webp
         const teamData = {
             "Navisa": { 
                 role: "Developer",
@@ -1289,7 +1467,6 @@
         function triggerOofSecret() {
             audioOof.currentTime = 0;
             audioOof.play();
-            // REVISI: Path diubah ke relatif
             createRainEffect("OOF.webp");
         }
     </script>
