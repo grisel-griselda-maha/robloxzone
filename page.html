@@ -679,12 +679,14 @@
             #genrePage {
                 justify-content: flex-start;
                 padding-top: 20px;
+                /* REVISI: Pastikan scroll vertikal jika konten penuh */
+                overflow-y: auto;
             }
             .game-grid {
                 flex-direction: column; /* Tumpuk vertikal */
-                height: auto;
-                max-height: 70vh; /* Buat konten bisa di-scroll */
-                overflow-y: auto;
+                height: auto; /* Hapus tinggi tetap agar bisa di-scroll */
+                /* max-height: 70vh; */ /* Hapus max-height */
+                /* overflow-y: auto; */ /* Pindahkan overflow ke #genrePage */
                 width: 90vw;
                 padding: 10px;
             }
@@ -715,13 +717,19 @@
                 grid-template-rows: 1fr 1fr; /* 2 baris, 2 kolom tetap */
                 height: 300px; /* Beri tinggi agar 4 kotak muat */
             }
-            .nav-arrow {
+            
+            /* --- REVISI PERBAIKAN PANAH GENRE PAGE --- */
+            #genrePage .nav-arrow {
                 font-size: 3rem; /* Kecilkan panah */
+            }
+            #genrePage .arrow-left {
                 left: 10px;
             }
-            .arrow-right {
+            #genrePage .arrow-right {
                 right: 10px;
             }
+            /* --- AKHIR REVISI PANAH --- */
+            
             .back-menu-btn {
                 font-size: 1.5rem;
                 padding: 15px 40px;
@@ -1242,7 +1250,6 @@
         const CARD_WIDTH = 180; 
         const CARD_GAP = 20;    
         const TOTAL_ITEM_WIDTH = CARD_WIDTH + CARD_GAP;
-        // REVISI: VISIBLE_WIDTH dihapus dari sini agar bisa dinamis
         
         let allGamesList = [];
         Object.keys(db).forEach(key => {
@@ -1250,11 +1257,9 @@
         });
 
         function startGacha() {
-            // REVISI: Ambil lebar kontainer secara dinamis
             const rouletteContainer = document.querySelector('.roulette-container');
-            const VISIBLE_WIDTH = rouletteContainer.clientWidth; // Ini membuatnya responsif!
+            const VISIBLE_WIDTH = rouletteContainer.clientWidth; // Dinamis
             
-            // Ambil elemen lain
             const strip = document.getElementById('rouletteStrip');
             const btn = document.getElementById('spinBtn');
             const modal = document.getElementById('resultModal');
@@ -1280,6 +1285,11 @@
                 [fillerGames[i], fillerGames[j]] = [fillerGames[j], fillerGames[i]];
             }
 
+            // Tentukan ukuran kartu berdasarkan lebar layar
+            const isMobile = window.innerWidth <= 800;
+            const cardWidthForCalc = isMobile ? 140 : CARD_WIDTH;
+            const totalItemWidthForCalc = cardWidthForCalc + CARD_GAP;
+
             let fillerIndex = 0;
             for (let i = 0; i < TOTAL_CARDS; i++) {
                 let gameData;
@@ -1291,18 +1301,14 @@
                 }
                 const card = document.createElement('div');
                 card.className = 'roulette-card';
-                // REVISI: Sesuaikan style kartu dengan CSS jika Anda mengubahnya
-                if (window.innerWidth <= 800) {
-                     card.style.width = '140px';
-                     card.style.height = '140px';
-                }
+                // Terapkan style dinamis
+                card.style.width = cardWidthForCalc + 'px';
+                card.style.height = cardWidthForCalc + 'px';
+                
                 card.innerHTML = `<img src="${gameData.img}" alt="game">`;
                 strip.appendChild(card);
             }
 
-            // REVISI: Kalkulasi posisi berhenti sekarang dinamis
-            const cardWidthForCalc = (window.innerWidth <= 800) ? 140 : CARD_WIDTH;
-            const totalItemWidthForCalc = cardWidthForCalc + CARD_GAP;
             const targetPosition = -(TARGET_INDEX * totalItemWidthForCalc) + (VISIBLE_WIDTH / 2) - (cardWidthForCalc / 2);
 
             setTimeout(() => {
