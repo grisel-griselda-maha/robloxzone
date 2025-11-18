@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Zone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="customCursor"></div>
+
+    <div class="main-container">
+        
+        <section id="home-section">
+            <header>
+                <a href="#about" class="nav-link">About Us</a>
+                <div style="position: relative;">
+                    <a href="#" class="nav-link" onclick="toggleMenu()">Menu</a>
+                    <div id="menuPopup">
+                        <a href="#topgames">Top Games</a>
+                        <a href="#recommendation">Recommendation</a>
+                        <a href="#randomizer">Randomizer</a>
+                    </div>
+                </div>
+            </header>
+            <img src="ROBLOX ZONE.webp" alt="Roblox Zone Logo" class="roblox-zone-logo">
+            <p class="home-description">Temukan game Roblox favoritmu di sini!</p>
+        </section>
+
+        <section id="topgames">
+            <img src="TOP GAMES.webp" alt="Top Games" class="section-title-img img-top-games">
+            <div class="top-list">
+                <div class="top-card">
+                    <div class="rank-badge">1</div>
+                    <img src="FISH IT.webp" alt="Fish It">
+                    <div class="top-card-title">Fish It</div>
+                    <a href="https://www.roblox.com/games/121864768012064/Fish-It" target="_blank" class="top-play-btn">PLAY</a>
+                </div>
+                <div class="top-card">
+                    <div class="rank-badge">2</div>
+                    <img src="BROOKHAVEN.webp" alt="Brookhaven">
+                    <div class="top-card-title">Brookhaven</div>
+                    <a href="https://www.roblox.com/games/4924922222/Brookhaven-RP" target="_blank" class="top-play-btn">PLAY</a>
+                </div>
+                <div class="top-card">
+                    <div class="rank-badge">3</div>
+                    <img src="GROW A GARDEN.webp" alt="Grow A Garden">
+                    <div class="top-card-title">Grow A Garden</div>
+                    <a href="https://www.roblox.com/games/126884695634066/Grow-a-Garden" target="_blank" class="top-play-btn">PLAY</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="recommendation">
+            <img src="OUR RECOMMENDATION.webp" alt="Our Recommendation" class="section-title-img img-recommendation">
+            <div class="rec-menu">
+                <button class="genre-btn" data-genre="Fashion">Fashion</button>
+                <button class="genre-btn" data-genre="Horror">Horror</button>
+                <button class="genre-btn" data-genre="Simulator">Simulator</button>
+                <button class="genre-btn" data-genre="Adventure">Adventure</button>
+                <button class="genre-btn" data-genre="Sport">Sport</button>
+                <button class="genre-btn" data-genre="Special Pick">Special Pick</button>
+            </div>
+        </section>
+
+        <section id="randomizer">
+            <img src="RANDOMIZER.webp" alt="Randomizer" class="section-title-img img-randomizer">
+            <div class="roulette-container">
+                <div class="roulette-marker"></div> 
+                <div class="roulette-strip" id="rouletteStrip"></div>
+            </div>
+            <button class="btn-random-small" id="spinBtn" onclick="startGacha()">SPIN!</button>
+        </section>
+
+        <section id="about">
+             <img src="ABOUT US.webp" alt="About Us" class="section-title-img img-about">
+            <div class="team-grid">
+                <div class="team-card card-cyan" data-name="Navisa">
+                    <div class="team-name">Navisa</div>
+                    <div class="team-role">Developer</div>
+                </div>
+                <div class="team-card card-white" data-name="Griselda">
+                    <div class="team-name">Griselda</div>
+                    <div class="team-role">Product Manager</div>
+                </div>
+                <div class="team-card card-yellow" data-name="Rafny">
+                    <div class="team-name">Rafny</div>
+                    <div class="team-role">Developer</div>
+                </div>
+            </div>
+            <div class="bottom-row">
+                <div class="card-yellow-small" data-name="Anastasya">
+                    <div class="team-name">Anastasya</div>
+                    <div class="team-role">Developer</div>
+                </div>
+                <div class="card-cyan-small" data-name="Alifah">
+                    <div class="team-name">Alifah</div>
+                    <div class="team-role">Developer</div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="secret-hint" onclick="triggerOofSecret()">Do not press 'O'</div>
+    </div> 
+
+    <div class="modal-overlay" id="resultModal" onclick="closeModalOutside(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img src="" id="modalImg" class="modal-img">
+            <h2 class="modal-title" id="modalTitle">Game Title</h2>
+            <p class="modal-desc" id="modalDesc">Description...</p>
+            <div class="modal-actions">
+                <button class="modal-btn-spin" onclick="resetAndSpin()">Spin Again</button>
+                <a href="#" id="modalLink" target="_blank" class="modal-btn-play">PLAY</a>
+            </div>
+            <button class="modal-close-text" onclick="closeModalOutside({target: document.getElementById('resultModal')})">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="teamModal" onclick="closeTeamModal()">
+        <div class="modal-content team-modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeTeamModal()">X</button>
+            
+            <div class="nav-arrow arrow-left" onclick="prevTeamMember()">◀</div>
+            <div class="nav-arrow arrow-right" onclick="nextTeamMember()">▶</div>
+
+            <div id="teamModalContentWrapper">
+                <div class="team-layout-grid">
+                    <div class="team-big-avatar">
+                        <img src="" id="teamModalImg" alt="Avatar Anggota Tim">
+                    </div>
+                    <div class="team-details-grid">
+                        <div class="team-detail-box name-box">
+                            <strong>Nama:</strong>
+                            <span id="teamModalName">Nama Anggota</span>
+                        </div>
+                        <div class="team-detail-box role-box">
+                            <strong>Role:</strong>
+                            <span id="teamModalRole">Role Anggota</span>
+                        </div>
+                        <div class="team-detail-box major-box">
+                            <strong>Jurusan:</strong>
+                            <span>Produksi Media</span>
+                        </div>
+                        <div class="team-detail-box year-box">
+                            <strong>Angkatan:</strong>
+                            <span>2025</span>
+                        </div>
+                        <a href="#" id="teamModalLink" target="_blank" class="modal-btn-play team-roblox-link">Kunjungi akun roblox</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="genrePage">
+        <div class="genre-bg-mesh" id="dynamicBg"></div>
+        <div class="genre-color-overlay" id="colorOverlay"></div>
+        <div class="nav-arrow arrow-left" onclick="prevGenre()">◀</div>
+        <div class="nav-arrow arrow-right" onclick="nextGenre()">▶</div>
+        
+        <div id="genreContentWrapper">
+            <div class="genre-header">
+                <h2 class="genre-title" id="genreTitleText">Genre Name</h2>
+            </div>
+            <div class="game-grid">
+                <div class="big-card-wrapper">
+                    <div class="big-card" id="bigCard">
+                        <div class="big-content" id="bigCardContent">
+                            <div class="big-info-overlay">
+                                <div class="big-text-area">
+                                    <h2 id="bigTitle" style="font-size: 3.5rem; margin-bottom: 10px;">Game Title</h2>
+                                    <p id="bigDesc" style="font-size: 1.5rem; opacity: 0.9;">Description here...</p>
+                                </div>
+                                <a href="#" id="bigPlayLink" target="_blank" class="direct-play-btn">PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="small-grid" id="smallGrid"></div>
+            </div>
+        </div>
+        
+        <button class="back-menu-btn" onclick="closeGenre()">Back to Home</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
