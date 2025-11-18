@@ -1,1297 +1,1299 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox Zone</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* --- 1. GLOBAL STYLES --- */
-        :root {
-            --font-main: 'Arial Rounded MT Bold', 'Helvetica Rounded', 'Fredoka', sans-serif; 
-            --color-primary: #6c5ce7;
-            --color-rec-btn: #4F4FD8;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Zone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. GLOBAL STYLES --- */
+        :root {
+            --font-main: 'Arial Rounded MT Bold', 'Helvetica Rounded', 'Fredoka', sans-serif; 
+            --color-primary: #6c5ce7;
+            --color-rec-btn: #4F4FD8;
+        }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
 
-        body {
-            font-family: var(--font-main);
-            margin: 0; padding: 0;
-            /* REVISI: Path diubah ke .webp */
-            background-image: url('BACKGROUND.webp'); 
-            background-size: cover; background-position: center;    
-            background-repeat: no-repeat;
-            width: 100%; min-height: 100vh; overflow-x: hidden;
-            cursor: none; 
-        }
+        body {
+            font-family: var(--font-main);
+            margin: 0; padding: 0;
+            /* REVISI: Path diubah ke .webp */
+            background-image: url('BACKGROUND.webp'); 
+            background-size: cover; background-position: center;    
+            background-repeat: no-repeat;
+            width: 100%; min-height: 100vh; overflow-x: hidden;
+            cursor: none; 
+        }
 
-        /* Agar gambar responsif */
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
+        /* Agar gambar responsif */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
 
-        /* --- CUSTOM CURSOR --- */
-        #customCursor {
-            position: fixed; top: 0; left: 0;
-            width: 30px; height: 30px;
-            background: white; border-radius: 50%;
-            pointer-events: none; 
-            transform: translate(-50%, -50%);
-            z-index: 999999;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            transition: width 0.2s, height 0.2s;
-            mix-blend-mode: difference;
-        }
-        body.hovering #customCursor {
-            width: 60px; height: 60px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid white; backdrop-filter: blur(2px);
-        }
-        .cursor-trail {
-            position: fixed; top: 0; left: 0;
-            width: 10px; height: 10px;
-            background: white; 
-            border-radius: 50%;
-            pointer-events: none; z-index: 999998;
-            transform: translate(-50%, -50%);
-            animation: fadeTrail 0.6s linear forwards;
-        }
-        @keyframes fadeTrail {
-            0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
-        }
+        /* --- CUSTOM CURSOR --- */
+        #customCursor {
+            position: fixed; top: 0; left: 0;
+            width: 30px; height: 30px;
+            background: white; border-radius: 50%;
+            pointer-events: none; 
+            transform: translate(-50%, -50%);
+            z-index: 999999;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            transition: width 0.2s, height 0.2s;
+            mix-blend-mode: difference;
+        }
+        body.hovering #customCursor {
+            width: 60px; height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid white; backdrop-filter: blur(2px);
+        }
+        .cursor-trail {
+            position: fixed; top: 0; left: 0;
+            width: 10px; height: 10px;
+            background: white; 
+            border-radius: 50%;
+            pointer-events: none; z-index: 999998;
+            transform: translate(-50%, -50%);
+            animation: fadeTrail 0.6s linear forwards;
+        }
+        @keyframes fadeTrail {
+            0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+        }
 
-        /* --- LAYOUT RESPONSIF --- */
-        .main-container {
-            max-width: 1440px; /* Batas maksimal */
-            width: 95%; /* Ada jarak 2.5% kiri kanan jika layar kecil/zoom */
-            margin: 0 auto; 
-            position: relative;
-        }
+        /* --- LAYOUT RESPONSIF --- */
+        .main-container {
+            max-width: 1440px; /* Batas maksimal */
+            width: 95%; /* Ada jarak 2.5% kiri kanan jika layar kecil/zoom */
+            margin: 0 auto; 
+            position: relative;
+        }
 
-        header {
-            position: absolute; top: 0; left: 0; width: 100%;
-            display: flex; justify-content: space-between; padding: 40px 5%; 
-            z-index: 100;
-        }
+        header {
+            position: absolute; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; padding: 40px 5%; 
+            z-index: 100;
+            align-items: center; /* REVISI: Ditambahkan untuk menyejajarkan tombol header */
+        }
 
-        .nav-link {
-            color: #333; text-decoration: none; font-weight: 600; font-size: 1.5rem;
-            padding: 12px 30px; background: rgba(255,255,255,0.9);
-            border-radius: 30px; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            white-space: nowrap; /* Teks tidak turun baris */
-        }
-        .nav-link:hover { background: white; transform: scale(1.05); }
+        .nav-link {
+            color: #333; text-decoration: none; font-weight: 600; font-size: 1.5rem;
+            padding: 12px 30px; background: rgba(255,255,255,0.9);
+            border-radius: 30px; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            white-space: nowrap; /* Teks tidak turun baris */
+        }
+        .nav-link:hover { background: white; transform: scale(1.05); }
 
-        #menuPopup {
-            display: none; position: absolute; top: 80px; right: 0;
-            background: white; border-radius: 20px; padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            flex-direction: column; gap: 15px; z-index: 101; width: 250px;
-        }
-        #menuPopup.active { display: flex; }
-        #menuPopup a {
-            text-decoration: none; color: #333; font-weight: 700; font-size: 1.2rem;
-            padding: 10px 15px; border-radius: 10px; transition: 0.2s;
-        }
-        #menuPopup a:hover { background: #f0f0f0; color: var(--color-primary); }
+        #menuPopup {
+            display: none; position: absolute; top: 80px; right: 0;
+            background: white; border-radius: 20px; padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            flex-direction: column; gap: 15px; z-index: 101; width: 250px;
+        }
+        #menuPopup.active { display: flex; }
+        #menuPopup a {
+            text-decoration: none; color: #333; font-weight: 700; font-size: 1.2rem;
+            padding: 10px 15px; border-radius: 10px; transition: 0.2s;
+        }
+        #menuPopup a:hover { background: #f0f0f0; color: var(--color-primary); }
 
-        /* --- SECTION 1: HOME --- */
-        #home-section {
-            width: 100%; 
-            min-height: 100vh; /* Mengisi tinggi layar minimal */
-            display: flex; justify-content: center; align-items: center; 
-            position: relative;
-        }
-        
-        .roblox-zone-logo {
-            width: 775px; 
-            max-width: 80%; /* Agar tidak offside di layar kecil */
-            height: auto; 
-            object-fit: contain;
-            position: absolute; 
-            left: 22%; 
-            top: 45%;
-            transform: translateY(-50%);
-        }
+        /* --- SECTION 1: HOME --- */
+        #home-section {
+            width: 100%; 
+            min-height: 100vh; /* Mengisi tinggi layar minimal */
+            display: flex; justify-content: center; align-items: center; 
+            position: relative;
+        }
+        
+        .roblox-zone-logo {
+            width: 775px; 
+            max-width: 80%; /* Agar tidak offside di layar kecil */
+            height: auto; 
+            object-fit: contain;
+            position: absolute; 
+            left: 22%; 
+            top: 45%;
+            transform: translateY(-50%);
+        }
 
-        .home-description {
-            position: absolute;
-            top: 68%; /* Jarak aman dari logo */
-            left: 50%;
-            transform: translateX(-50%); 
-            font-size: 2.2rem;
-            color: white;
-            font-weight: 700;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            text-align: center;
-            z-index: 50;
-            animation: funTextEffect 5s infinite ease-in-out;
-            white-space: nowrap;
-        }
-        
-        @keyframes funTextEffect {
-            0%, 100% {
-                transform: translateX(-50%) scale(1) rotate(0deg);
-            }
-            25% {
-                transform: translateX(-50%) scale(1.1) rotate(-3deg);
-            }
-            50% {
-                transform: translateX(-50%) scale(1) rotate(0deg);
-            }
-            75% {
-                transform: translateX(-50%) scale(1.1) rotate(3deg);
-            }
-        }
-
-
-        .section-title-img { 
-            max-width: 90%; /* Responsif */
-            height: auto; 
-            display: block; margin-bottom: 50px; 
-        }
-
-        /* Ukuran maksimal gambar judul */
-        .img-top-games { width: 500px; }
-        .img-recommendation { width: 800px; } 
-        .img-randomizer { width: 950px; margin-bottom: 60px; }
-        .img-about { width: 760px; margin-bottom: 80px; }
-
-        /* --- SECTION 2: TOP GAMES --- */
-        #topgames {
-            width: 100%; min-height: 100vh; height: auto;
-            display: flex; flex-direction: column; justify-content: flex-start; 
-            padding-top: 150px; align-items: center; padding-bottom: 100px;
-        }
-        .top-list { 
-            display: flex; flex-direction: row; gap: 40px; 
-            width: 100%; max-width: 1240px; 
-            justify-content: center; flex-wrap: wrap; 
-        }
-        .top-card {
-            flex: 1; 
-            min-width: 300px; 
-            background: white; border-radius: 30px; padding: 20px;
-            display: flex; flex-direction: column; align-items: center;
-            position: relative; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer;
-        }
-        .top-card:hover {
-            transform: translateY(-15px) rotate(-3deg);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            z-index: 5;
-        }
-        .top-card img {
-            width: 100%; height: 250px; object-fit: cover;
-            border-radius: 20px; margin-bottom: 20px;
-        }
-        .rank-badge {
-            position: absolute; top: -15px; left: -15px;
-            background: #fbc02d; color: white; 
-            width: 70px; height: 70px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; font-weight: 800;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: 4px solid white;
-        }
-        .top-card-title {
-            font-size: 1.8rem; font-weight: 800; color: #333;
-            margin-bottom: 15px; text-align: center;
-        }
-        .top-play-btn {
-            background: var(--color-primary); color: white;
-            padding: 10px 30px; border-radius: 30px;
-            text-decoration: none; font-weight: bold; font-size: 1.2rem;
-            transition: 0.2s; width: 100%; text-align: center;
-        }
-        .top-play-btn:hover { background: #4834d4; }
-
-        /* --- SECTION 3: RECOMMENDATION --- */
-        #recommendation {
-            width: 100%; min-height: 100vh; height: auto;
-            display: flex; flex-direction: column; justify-content: flex-start; 
-            padding-top: 100px; align-items: center; padding-bottom: 100px;
-        }
-        .rec-menu { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; margin-top: 20px; 
-            width: 100%; max-width: 1240px;
-        }
-        .genre-btn {
-            width: 100%; height: 125px; padding: 10px;  
-            border-radius: 60px; border: 3px solid white; 
-            font-family: var(--font-main); font-weight: 700; font-size: 2rem;
-            color: white; cursor: pointer; transition: all 0.3s ease; 
-            background-color: var(--color-rec-btn); 
-            box-shadow: 0 10px 0 rgba(0,0,0,0.2); 
-        }
-        .genre-btn:active { transform: translateY(5px); box-shadow: none; }
-        .genre-btn:hover { 
-            filter: brightness(1.1); 
-            transform: translateY(-5px) rotate(-2deg) scale(1.02); 
-            box-shadow: 0 0 25px rgba(79, 79, 216, 0.6), 0 15px 10px rgba(0,0,0,0.2);
-        }
-        .genre-btn:nth-child(even):hover { transform: translateY(-5px) rotate(2deg) scale(1.02); }
-
-        @keyframes bounceClick {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.92); }
-            100% { transform: scale(1); }
-        }
-        .genre-btn.bouncing {
-            animation: bounceClick 0.3s ease-out;
-        }
-
-        /* --- GENRE OVERLAY --- */
-        #genrePage {
-            display: none; position: fixed; 
-            top: 0; left: 0; width: 100vw; height: 100vh; 
-            z-index: 9999; background: #222; 
-            flex-direction: column; align-items: center; justify-content: center;
-            overflow: hidden; opacity: 0; 
-            transition: opacity 0.4s ease;
-        }
-        #genrePage.active { display: flex; }
-        #genrePage.show { opacity: 1; }
-
-        #genreContentWrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
-        }
-
-        /* Animations */
-        .genre-header {
-            display: flex; align-items: center; justify-content: center;
-            width: 100%; margin-bottom: 40px; z-index: 10;
-        }
-        .big-card-wrapper {
-            flex: 1.2; height: 100%; min-width: 300px;
-        }
-        .small-grid .small-card {
-        }
-        .back-menu-btn { 
-            margin-top: 40px; padding: 20px 60px; font-size: 2.5rem; 
-            background: white; border-radius: 60px; font-weight: 800; 
-            border: none; cursor: pointer; z-index: 10;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transform: translateY(200%); opacity: 0;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        #genrePage.show #genreContentWrapper { transform: translateY(0); opacity: 1; }
-        #genrePage.show .back-menu-btn { transform: translateY(0); opacity: 1; }
-        
-        #genrePage.show .small-grid .small-card:nth-child(1) { transition: transform 0.7s 0.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s 0.1s; }
-        #genrePage.show .small-grid .small-card:nth-child(2) { transition: transform 0.7s 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s 0.2s; }
-        #genrePage.show .small-grid .small-card:nth-child(3) { transition: transform 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s 0.3s; }
-        #genrePage.show .small-grid .small-card:nth-child(4) { transition: transform 0.7s 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s 0.4s; }
+        .home-description {
+            position: absolute;
+            top: 68%; /* Jarak aman dari logo */
+            left: 50%;
+            transform: translateX(-50%); 
+            font-size: 2.2rem;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            text-align: center;
+            z-index: 50;
+            animation: funTextEffect 5s infinite ease-in-out;
+            white-space: nowrap;
+        }
+        
+        @keyframes funTextEffect {
+            0%, 100% {
+                transform: translateX(-50%) scale(1) rotate(0deg);
+            }
+            25% {
+                transform: translateX(-50%) scale(1.1) rotate(-3deg);
+            }
+            50% {
+                transform: translateX(-50%) scale(1) rotate(0deg);
+            }
+            75% {
+                transform: translateX(-50%) scale(1.1) rotate(3deg);
+            }
+        }
 
 
-        .genre-bg-mesh {
-            position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
-            background-size: cover; background-position: center;
-            filter: blur(80px) saturate(160%) brightness(0.85);
-            z-index: -2; transition: background-image 0.6s ease-in-out;
-            animation: breathe 10s infinite alternate;
-        }
-        .genre-color-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); z-index: -1;
-        }
-        @keyframes breathe { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
-        .genre-title { 
-            font-size: 4rem; font-weight: 800; color: white !important;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.5); 
-        }
-        .nav-arrow {
-            position: absolute; top: 50%; transform: translateY(-50%); 
-            font-size: 6rem; cursor: pointer; user-select: none;
-            transition: 0.2s; color: rgba(255,255,255,0.6); z-index: 10000;
-        }
-        .nav-arrow:hover { transform: translateY(-50%) scale(1.2); color: white; text-shadow: 0 0 10px rgba(0,0,0,0.8); }
-        .arrow-left { left: 40px; } .arrow-right { right: 40px; }
-        
-        .game-grid { 
-            display: flex; gap: 30px; 
-            width: 100%; max-width: 1200px; height: 600px; z-index: 10; 
-        }
-        .big-card {
-            width: 100%; height: 100%; background: #333; 
-            border-radius: 40px; overflow: hidden; position: relative; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.1); 
-        }
-        .big-content { 
-            background-size: cover; background-position: center; 
-            height: 100%; width: 100%; transition: background-image 0.4s ease-in-out;
-        }
-        .big-info-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            padding: 40px; background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 40%, rgba(0,0,0,0.9) 100%);
-            display: flex; flex-direction: column; justify-content: space-between; 
-        }
-        .big-text-area { text-align: left; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.8); }
-        .direct-play-btn {
-            background: white; color: black; text-decoration: none;
-            font-weight: 800; font-size: 2rem; padding: 15px 0;
-            width: 100%; text-align: center; border-radius: 50px;
-            transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        .direct-play-btn:hover { transform: scale(1.02); background: #f0f0f0; }
-        
-        .small-grid { 
-            flex: 1; display: grid; 
-            grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; 
-            gap: 20px; 
-        }
-        .small-card { 
-            background: #eee; border-radius: 30px; overflow: hidden; 
-            cursor: pointer; transition: 0.3s; position: relative;
-            border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transform: translateX(150%); opacity: 0;
-        }
-        #genrePage.show .small-card {
-            transform: translateX(0); opacity: 1;
-        }
-        .small-card:hover { transform: scale(1.05); z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-color: white; }
-        .small-card img { width: 100%; height: 100%; object-fit: cover; }
+        .section-title-img { 
+            max-width: 90%; /* Responsif */
+            height: auto; 
+            display: block; margin-bottom: 50px; 
+        }
 
-        /* --- SECTION 4: RANDOMIZER --- */
-        #randomizer {
-            width: 100%; min-height: 100vh; height: auto;
-            display: flex; flex-direction: column;
-            justify-content: flex-start; padding-top: 180px; align-items: center;
-            position: relative;
-        }
-        .roulette-container {
-            position: relative; 
-            width: 100%; max-width: 1240px; /* Responsif */
-            height: 220px;
-            background: #1a1a1a; border: 8px solid #333;
-            border-radius: 20px; overflow: hidden; margin-bottom: 40px;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 20px 40px rgba(0,0,0,0.3);
-            z-index: 2;
-        }
-        .roulette-marker {
-            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 6px; height: 100%; background: #ff0055;
-            z-index: 10; box-shadow: 0 0 15px #ff0055;
-        }
-        .roulette-strip {
-            display: flex; height: 100%; align-items: center; position: absolute;
-            left: 0; top: 0; transition-timing-function: cubic-bezier(0.1, 0.7, 0.1, 1); 
-        }
-        .roulette-card {
-            width: 180px; height: 180px; margin: 0 10px; background: #444;
-            border-radius: 15px; flex-shrink: 0; overflow: hidden;
-            position: relative; border: 3px solid transparent;
-        }
-        .roulette-card img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-random-small {
-            background: #6c5ce7; color: white; font-size: 1.8rem;
-            padding: 12px 50px; border-radius: 50px; border: none; 
-            font-family: var(--font-main); font-weight: 800; cursor: pointer; 
-            box-shadow: 0 8px 0 #4834d4, 0 10px 20px rgba(0,0,0,0.3);
-            transition: 0.2s; 
-        }
-        .btn-random-small:active { transform: translateY(8px); box-shadow: 0 0 0 #4834d4; }
-        .btn-random-small:disabled { background: #555; box-shadow: none; cursor: not-allowed; transform: none; }
+        /* Ukuran maksimal gambar judul */
+        .img-top-games { width: 500px; }
+        .img-recommendation { width: 800px; } 
+        .img-randomizer { width: 950px; margin-bottom: 60px; }
+        .img-about { width: 760px; margin-bottom: 80px; }
 
-        /* --- RAIN EFFECT --- */
-        .rain-drop {
-            position: fixed; top: -150px; z-index: 99999;
-            user-select: none; pointer-events: none;
-            width: 80px; height: auto;
-            animation: fallDown linear forwards;
-            border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .oof-drop { border-radius: 0; box-shadow: none; }
-        @keyframes fallDown { to { transform: translateY(120vh) rotate(360deg); } }
+        /* --- SECTION 2: TOP GAMES --- */
+        #topgames {
+            width: 100%; min-height: 100vh; height: auto;
+            display: flex; flex-direction: column; justify-content: flex-start; 
+            padding-top: 150px; align-items: center; padding-bottom: 100px;
+        }
+        .top-list { 
+            display: flex; flex-direction: row; gap: 40px; 
+            width: 100%; max-width: 1240px; 
+            justify-content: center; flex-wrap: wrap; 
+        }
+        .top-card {
+            flex: 1; 
+            min-width: 300px; 
+            background: white; border-radius: 30px; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer;
+        }
+        .top-card:hover {
+            transform: translateY(-15px) rotate(-3deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            z-index: 5;
+        }
+        .top-card img {
+            width: 100%; height: 250px; object-fit: cover;
+            border-radius: 20px; margin-bottom: 20px;
+        }
+        .rank-badge {
+            position: absolute; top: -15px; left: -15px;
+            background: #fbc02d; color: white; 
+            width: 70px; height: 70px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: 800;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: 4px solid white;
+        }
+        .top-card-title {
+            font-size: 1.8rem; font-weight: 800; color: #333;
+            margin-bottom: 15px; text-align: center;
+        }
+        .top-play-btn {
+            background: var(--color-primary); color: white;
+            padding: 10px 30px; border-radius: 30px;
+            text-decoration: none; font-weight: bold; font-size: 1.2rem;
+            transition: 0.2s; width: 100%; text-align: center;
+        }
+        .top-play-btn:hover { background: #4834d4; }
 
-        /* --- POP-UP MODAL (RANDOMIZER) --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
-            z-index: 20000; display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease; cursor: pointer; 
-        }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content {
-            background: rgba(255, 255, 255, 0.85); 
-            width: 90%; max-width: 500px; /* Responsif */
-            padding: 30px; border-radius: 40px; text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            border: 2px solid rgba(255,255,255,0.5);
-            transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            cursor: default; display: flex; flex-direction: column; align-items: center;
-            position: relative;
-        }
-        .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-img {
-            width: 100%; height: 250px; object-fit: cover;
-            border-radius: 25px; margin-bottom: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        .modal-title { font-size: 2.5rem; font-weight: 800; color: #333; margin-bottom: 10px; }
-        .modal-desc { font-size: 1.1rem; color: #555; margin-bottom: 25px; line-height: 1.4; }
-        .modal-actions { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;}
-        .modal-btn-play {
-            background-color: var(--color-rec-btn); color: white;
-            padding: 12px 30px; border-radius: 30px; text-decoration: none;
-            font-weight: bold; font-size: 1.2rem; transition: 0.2s; border: none; cursor: pointer;
-        }
-        .modal-btn-play:hover { transform: scale(1.05); }
-        .modal-btn-spin {
-            background-color: #636e72; color: white;
-            padding: 12px 30px; border-radius: 30px; text-decoration: none;
-            font-weight: bold; font-size: 1.2rem; transition: 0.2s; border: none; cursor: pointer;
-        }
-        .modal-btn-spin:hover { background-color: #2d3436; transform: scale(1.05); }
-        .modal-close-text {
-            background: transparent; border: none; color: #888;
-            font-size: 1rem; font-weight: 700; cursor: pointer;
-            text-decoration: underline; transition: 0.2s;
-        }
-        .modal-close-text:hover { color: #333; }
+        /* --- SECTION 3: RECOMMENDATION --- */
+        #recommendation {
+            width: 100%; min-height: 100vh; height: auto;
+            display: flex; flex-direction: column; justify-content: flex-start; 
+            padding-top: 100px; align-items: center; padding-bottom: 100px;
+        }
+        .rec-menu { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; margin-top: 20px; 
+            width: 100%; max-width: 1240px;
+        }
+        .genre-btn {
+            width: 100%; height: 125px; padding: 10px;  
+            border-radius: 60px; border: 3px solid white; 
+            font-family: var(--font-main); font-weight: 700; font-size: 2rem;
+            color: white; cursor: pointer; transition: all 0.3s ease; 
+            background-color: var(--color-rec-btn); 
+            box-shadow: 0 10px 0 rgba(0,0,0,0.2); 
+        }
+        .genre-btn:active { transform: translateY(5px); box-shadow: none; }
+        .genre-btn:hover { 
+            filter: brightness(1.1); 
+            transform: translateY(-5px) rotate(-2deg) scale(1.02); 
+            box-shadow: 0 0 25px rgba(79, 79, 216, 0.6), 0 15px 10px rgba(0,0,0,0.2);
+        }
+        .genre-btn:nth-child(even):hover { transform: translateY(-5px) rotate(2deg) scale(1.02); }
 
-        .secret-hint {
-            position: fixed; bottom: 10px; right: 20px;
-            color: rgba(255,255,255,0.3); font-size: 0.8rem;
-            cursor: pointer; z-index: 50;
-        }
-        .secret-hint:hover { color: white; }
+        @keyframes bounceClick {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.92); }
+            100% { transform: scale(1); }
+        }
+        .genre-btn.bouncing {
+            animation: bounceClick 0.3s ease-out;
+        }
 
-        /* --- SECTION 5: ABOUT US --- */
-        #about {
-            width: 100%; min-height: 100vh; height: auto; 
-            display: flex; flex-direction: column;
-            justify-content: flex-start; padding-top: 150px; align-items: center;
-            position: relative;
-        }
-        .team-grid { display: flex; align-items: flex-end; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center;}
-        .team-card {
-            width: 220px; border-radius: 30px; padding: 25px;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: left; font-weight: 700;
-            cursor: pointer; 
-            transition: 0.2s; 
-        }
-        
-        .team-card:hover, .card-yellow-small:hover, .card-cyan-small:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-        .card-cyan { background: #64ffda; height: 200px; }
-        /* REVISI: Mengubah height card Griselda agar sama */
-        .card-white { background: #ffffff; height: 200px; z-index: 2; border: 2px solid #eee; }
-        .card-yellow { background: #ffff00; height: 200px; }
-        .card-yellow-small { 
-            background: #ffeb3b; height: 180px; width: 200px; 
-            border-radius: 25px; padding: 20px; display: flex; flex-direction: column; 
-            justify-content: flex-end; font-weight: 700; 
-            cursor: pointer; transition: 0.2s; 
-        }
-        .card-cyan-small { 
-            background: #64ffda; height: 180px; width: 200px; 
-            border-radius: 25px; padding: 20px; display: flex; flex-direction: column; 
-            justify-content: flex-end; font-weight: 700;
-            cursor: pointer; transition: 0.2s;
-        }
-        .bottom-row { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
-        .team-name { font-size: 1.4rem; margin-bottom: 5px; color: #333; }
-        .team-role { font-size: 0.9rem; opacity: 0.7; color: #333; }
+        /* --- GENRE OVERLAY --- */
+        #genrePage {
+            display: none; position: fixed; 
+            top: 0; left: 0; width: 100vw; height: 100vh; 
+            z-index: 9999; background: #222; 
+            flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden; opacity: 0; 
+            transition: opacity 0.4s ease;
+        }
+        #genrePage.active { display: flex; }
+        #genrePage.show { opacity: 1; }
+
+        #genreContentWrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+        }
+
+        /* Animations */
+        .genre-header {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; margin-bottom: 40px; z-index: 10;
+        }
+        .big-card-wrapper {
+            flex: 1.2; height: 100%; min-width: 300px;
+        }
+        .small-grid .small-card {
+        }
+        .back-menu-btn { 
+            margin-top: 40px; padding: 20px 60px; font-size: 2.5rem; 
+            background: white; border-radius: 60px; font-weight: 800; 
+            border: none; cursor: pointer; z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(200%); opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #genrePage.show #genreContentWrapper { transform: translateY(0); opacity: 1; }
+        #genrePage.show .back-menu-btn { transform: translateY(0); opacity: 1; }
+        
+        #genrePage.show .small-grid .small-card:nth-child(1) { transition: transform 0.7s 0.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s 0.1s; }
+        #genrePage.show .small-grid .small-card:nth-child(2) { transition: transform 0.7s 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s 0.2s; }
+        #genrePage.show .small-grid .small-card:nth-child(3) { transition: transform 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s 0.3s; }
+        #genrePage.show .small-grid .small-card:nth-child(4) { transition: transform 0.7s 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s 0.4s; }
 
 
-        /* REVISI: Style untuk Modal About Us (dirombak total) */
-        .team-modal-content {
-            max-width: 900px; /* Diperbesar */
-            padding: 40px;
-            padding-left: 70px; /* Ruang untuk panah */
-            padding-right: 70px; /* Ruang untuk panah */
-            overflow: hidden; 
-        }
-        #teamModalContentWrapper {
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .team-layout-grid {
-            display: flex;
-            align-items: flex-start;
-            gap: 30px;
-            width: 100%;
-        }
-        .team-big-avatar {
-            flex: 0 0 350px; /* Lebar tetap untuk avatar */
-        }
-        #teamModalImg {
-            width: 100%;
-            height: auto;
-            border-radius: 30px; /* Rounded rectangle */
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        .team-details-grid {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            align-content: start;
-        }
-        .team-detail-box {
-            background: rgba(255,255,255,0.6);
-            border: 2px solid rgba(255,255,255,0.9);
-            border-radius: 20px;
-            padding: 20px;
-            font-size: 1.2rem;
-            color: #333;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        .team-detail-box strong {
-            font-size: 1rem;
-            opacity: 0.7;
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        .team-detail-box span {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #000;
-        }
-        .team-roblox-link {
-            grid-column: 1 / -1; /* Span full width */
-            margin-top: 10px;
-            text-align: center;
-            font-size: 1.5rem; /* Perbesar font */
-            padding: 15px 30px; /* Dibuat terlihat seperti tombol */
-        }
-        
-        .modal-close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #ddd;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1001;
-        }
-        .modal-close-btn:hover {
-            background: #bbb;
-            transform: scale(1.1);
-        }
-        
-        /* Navigasi di dalam modal */
-        .modal-content .nav-arrow {
-            color: #888; 
-            font-size: 4rem; 
-            z-index: 1000;
-        }
-        .modal-content .nav-arrow:hover {
-            color: #333;
-            transform: translateY(-50%) scale(1.1);
-            text-shadow: none; 
-        }
-        #teamModal .arrow-left { left: 15px; }
-        #teamModal .arrow-right { right: 15px; }
+        .genre-bg-mesh {
+            position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
+            background-size: cover; background-position: center;
+            filter: blur(80px) saturate(160%) brightness(0.85);
+            z-index: -2; transition: background-image 0.6s ease-in-out;
+            animation: breathe 10s infinite alternate;
+        }
+        .genre-color-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); z-index: -1;
+        }
+        @keyframes breathe { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        .genre-title { 
+            font-size: 4rem; font-weight: 800; color: white !important;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5); 
+        }
+        .nav-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%); 
+            font-size: 6rem; cursor: pointer; user-select: none;
+            transition: 0.2s; color: rgba(255,255,255,0.6); z-index: 10000;
+        }
+        .nav-arrow:hover { transform: translateY(-50%) scale(1.2); color: white; text-shadow: 0 0 10px rgba(0,0,0,0.8); }
+        .arrow-left { left: 40px; } .arrow-right { right: 40px; }
+        
+        .game-grid { 
+            display: flex; gap: 30px; 
+            width: 100%; max-width: 1200px; height: 600px; z-index: 10; 
+        }
+        .big-card {
+            width: 100%; height: 100%; background: #333; 
+            border-radius: 40px; overflow: hidden; position: relative; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.1); 
+        }
+        .big-content { 
+            background-size: cover; background-position: center; 
+            height: 100%; width: 100%; transition: background-image 0.4s ease-in-out;
+        }
+        .big-info-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            padding: 40px; background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 40%, rgba(0,0,0,0.9) 100%);
+            display: flex; flex-direction: column; justify-content: space-between; 
+        }
+        .big-text-area { text-align: left; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.8); }
+        .direct-play-btn {
+            background: white; color: black; text-decoration: none;
+            font-weight: 800; font-size: 2rem; padding: 15px 0;
+            width: 100%; text-align: center; border-radius: 50px;
+            transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .direct-play-btn:hover { transform: scale(1.02); background: #f0f0f0; }
+        
+        .small-grid { 
+            flex: 1; display: grid; 
+            grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; 
+            gap: 20px; 
+        }
+        .small-card { 
+            background: #eee; border-radius: 30px; overflow: hidden; 
+            cursor: pointer; transition: 0.3s; position: relative;
+            border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateX(150%); opacity: 0;
+        }
+        #genrePage.show .small-card {
+            transform: translateX(0); opacity: 1;
+        }
+        .small-card:hover { transform: scale(1.05); z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-color: white; }
+        .small-card img { width: 100%; height: 100%; object-fit: cover; }
 
-    </style>
+        /* --- SECTION 4: RANDOMIZER --- */
+        #randomizer {
+            width: 100%; min-height: 100vh; height: auto;
+            display: flex; flex-direction: column;
+            justify-content: flex-start; padding-top: 180px; align-items: center;
+            position: relative;
+        }
+        .roulette-container {
+            position: relative; 
+            width: 100%; max-width: 1240px; /* Responsif */
+            height: 220px;
+            background: #1a1a1a; border: 8px solid #333;
+            border-radius: 20px; overflow: hidden; margin-bottom: 40px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 20px 40px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        .roulette-marker {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 6px; height: 100%; background: #ff0055;
+            z-index: 10; box-shadow: 0 0 15px #ff0055;
+        }
+        .roulette-strip {
+            display: flex; height: 100%; align-items: center; position: absolute;
+            left: 0; top: 0; transition-timing-function: cubic-bezier(0.1, 0.7, 0.1, 1); 
+        }
+        .roulette-card {
+            width: 180px; height: 180px; margin: 0 10px; background: #444;
+            border-radius: 15px; flex-shrink: 0; overflow: hidden;
+            position: relative; border: 3px solid transparent;
+        }
+        .roulette-card img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-random-small {
+            background: #6c5ce7; color: white; font-size: 1.8rem;
+            padding: 12px 50px; border-radius: 50px; border: none; 
+            font-family: var(--font-main); font-weight: 800; cursor: pointer; 
+            box-shadow: 0 8px 0 #4834d4, 0 10px 20px rgba(0,0,0,0.3);
+            transition: 0.2s; 
+        }
+        .btn-random-small:active { transform: translateY(8px); box-shadow: 0 0 0 #4834d4; }
+        .btn-random-small:disabled { background: #555; box-shadow: none; cursor: not-allowed; transform: none; }
+
+        /* --- RAIN EFFECT --- */
+        .rain-drop {
+            position: fixed; top: -150px; z-index: 99999;
+            user-select: none; pointer-events: none;
+            width: 80px; height: auto;
+            animation: fallDown linear forwards;
+            border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .oof-drop { border-radius: 0; box-shadow: none; }
+        @keyframes fallDown { to { transform: translateY(120vh) rotate(360deg); } }
+
+        /* --- POP-UP MODAL (RANDOMIZER) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
+            z-index: 20000; display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease; cursor: pointer; 
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.85); 
+            width: 90%; max-width: 500px; /* Responsif */
+            padding: 30px; border-radius: 40px; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.5);
+            transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: default; display: flex; flex-direction: column; align-items: center;
+            position: relative;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-img {
+            width: 100%; height: 250px; object-fit: cover;
+            border-radius: 25px; margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .modal-title { font-size: 2.5rem; font-weight: 800; color: #333; margin-bottom: 10px; }
+        .modal-desc { font-size: 1.1rem; color: #555; margin-bottom: 25px; line-height: 1.4; }
+        .modal-actions { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;}
+        .modal-btn-play {
+            background-color: var(--color-rec-btn); color: white;
+            padding: 12px 30px; border-radius: 30px; text-decoration: none;
+            font-weight: bold; font-size: 1.2rem; transition: 0.2s; border: none; cursor: pointer;
+        }
+        .modal-btn-play:hover { transform: scale(1.05); }
+        .modal-btn-spin {
+            background-color: #636e72; color: white;
+            padding: 12px 30px; border-radius: 30px; text-decoration: none;
+            font-weight: bold; font-size: 1.2rem; transition: 0.2s; border: none; cursor: pointer;
+        }
+        .modal-btn-spin:hover { background-color: #2d3436; transform: scale(1.05); }
+        .modal-close-text {
+            background: transparent; border: none; color: #888;
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            text-decoration: underline; transition: 0.2s;
+        }
+        .modal-close-text:hover { color: #333; }
+
+        .secret-hint {
+            position: fixed; bottom: 10px; right: 20px;
+            color: rgba(255,255,255,0.3); font-size: 0.8rem;
+            cursor: pointer; z-index: 50;
+        }
+        .secret-hint:hover { color: white; }
+
+        /* --- SECTION 5: ABOUT US --- */
+        #about {
+            width: 100%; min-height: 100vh; height: auto; 
+            display: flex; flex-direction: column;
+            justify-content: flex-start; padding-top: 150px; align-items: center;
+            position: relative;
+        }
+        .team-grid { display: flex; align-items: flex-end; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center;}
+        .team-card {
+            width: 220px; border-radius: 30px; padding: 25px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: left; font-weight: 700;
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
+        
+        .team-card:hover, .card-yellow-small:hover, .card-cyan-small:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .card-cyan { background: #64ffda; height: 200px; }
+        /* REVISI: Mengubah height card Griselda agar sama */
+        .card-white { background: #ffffff; height: 200px; z-index: 2; border: 2px solid #eee; }
+        .card-yellow { background: #ffff00; height: 200px; }
+        .card-yellow-small { 
+            background: #ffeb3b; height: 180px; width: 200px; 
+            border-radius: 25px; padding: 20px; display: flex; flex-direction: column; 
+            justify-content: flex-end; font-weight: 700; 
+            cursor: pointer; transition: 0.2s; 
+        }
+        .card-cyan-small { 
+            background: #64ffda; height: 180px; width: 200px; 
+            border-radius: 25px; padding: 20px; display: flex; flex-direction: column; 
+            justify-content: flex-end; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+        }
+        .bottom-row { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
+        .team-name { font-size: 1.4rem; margin-bottom: 5px; color: #333; }
+        .team-role { font-size: 0.9rem; opacity: 0.7; color: #333; }
+
+
+        /* REVISI: Style untuk Modal About Us (dirombak total) */
+        .team-modal-content {
+            max-width: 900px; /* Diperbesar */
+            padding: 40px;
+            padding-left: 70px; /* Ruang untuk panah */
+            padding-right: 70px; /* Ruang untuk panah */
+            overflow: hidden; 
+        }
+        #teamModalContentWrapper {
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .team-layout-grid {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            width: 100%;
+        }
+        .team-big-avatar {
+            flex: 0 0 350px; /* Lebar tetap untuk avatar */
+        }
+        #teamModalImg {
+            width: 100%;
+            height: auto;
+            border-radius: 30px; /* Rounded rectangle */
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .team-details-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-content: start;
+        }
+        .team-detail-box {
+            background: rgba(255,255,255,0.6);
+            border: 2px solid rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 20px;
+            font-size: 1.2rem;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .team-detail-box strong {
+            font-size: 1rem;
+            opacity: 0.7;
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .team-detail-box span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #000;
+        }
+        .team-roblox-link {
+            grid-column: 1 / -1; /* Span full width */
+            margin-top: 10px;
+            text-align: center;
+            font-size: 1.5rem; /* Perbesar font */
+            padding: 15px 30px; /* Dibuat terlihat seperti tombol */
+        }
+        
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ddd;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+        .modal-close-btn:hover {
+            background: #bbb;
+            transform: scale(1.1);
+        }
+        
+        /* Navigasi di dalam modal */
+        .modal-content .nav-arrow {
+            color: #888; 
+            font-size: 4rem; 
+            z-index: 1000;
+        }
+        .modal-content .nav-arrow:hover {
+            color: #333;
+            transform: translateY(-50%) scale(1.1);
+            text-shadow: none; 
+        }
+        #teamModal .arrow-left { left: 15px; }
+        #teamModal .arrow-right { right: 15px; }
+
+    </style>
 </head>
 <body>
 
-    <div id="customCursor"></div>
-
-    <div class="main-container">
-        
-        <section id="home-section">
-            <header>
-                <a href="#about" class="nav-link">About Us</a>
-                <div style="position: relative;">
-                    <a href="#" class="nav-link" onclick="toggleMenu()">Menu</a>
-                    <div id="menuPopup">
-                        <a href="#topgames">Top Games</a>
-                        <a href="#recommendation">Recommendation</a>
-                        <a href="#randomizer">Randomizer</a>
-                    </div>
-                </div>
-            </header>
-            <img src="ROBLOX ZONE.webp" alt="Roblox Zone Logo" class="roblox-zone-logo">
-            <p class="home-description">Temukan game Roblox favoritmu di sini!</p>
-        </section>
-
-        <section id="topgames">
-            <img src="TOP GAMES.webp" alt="Top Games" class="section-title-img img-top-games">
-            <div class="top-list">
-                <div class="top-card">
-                    <div class="rank-badge">1</div>
-                    <img src="FISH IT.webp" alt="Fish It">
-                    <div class="top-card-title">Fish It</div>
-                    <a href="https://www.roblox.com/games/121864768012064/Fish-It" target="_blank" class="top-play-btn">PLAY</a>
-                </div>
-                <div class="top-card">
-                    <div class="rank-badge">2</div>
-                    <img src="BROOKHAVEN.webp" alt="Brookhaven">
-                    <div class="top-card-title">Brookhaven</div>
-                    <a href="https://www.roblox.com/games/4924922222/Brookhaven-RP" target="_blank" class="top-play-btn">PLAY</a>
-                </div>
-                <div class="top-card">
-                    <div class="rank-badge">3</div>
-                    <img src="GROW A GARDEN.webp" alt="Grow A Garden">
-                    <div class="top-card-title">Grow A Garden</div>
-                    <a href="https://www.roblox.com/games/126884695634066/Grow-a-Garden" target="_blank" class="top-play-btn">PLAY</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="recommendation">
-            <img src="OUR RECOMMENDATION.webp" alt="Our Recommendation" class="section-title-img img-recommendation">
-            <div class="rec-menu">
-                <button class="genre-btn" data-genre="Fashion">Fashion</button>
-                <button class="genre-btn" data-genre="Horror">Horror</button>
-                <button class="genre-btn" data-genre="Simulator">Simulator</button>
-                <button class="genre-btn" data-genre="Adventure">Adventure</button>
-                <button class="genre-btn" data-genre="Sport">Sport</button>
-                <button class="genre-btn" data-genre="Special Pick">Special Pick</button>
-            </div>
-        </section>
-
-        <section id="randomizer">
-            <img src="RANDOMIZER.webp" alt="Randomizer" class="section-title-img img-randomizer">
-            <div class="roulette-container">
-                <div class="roulette-marker"></div> 
-                <div class="roulette-strip" id="rouletteStrip"></div>
-            </div>
-            <button class="btn-random-small" id="spinBtn" onclick="startGacha()">SPIN!</button>
-        </section>
-
-        <section id="about">
-             <img src="ABOUT US.webp" alt="About Us" class="section-title-img img-about">
-            <div class="team-grid">
-                <div class="team-card card-cyan" data-name="Navisa">
-                    <div class="team-name">Navisa</div>
-                    <div class="team-role">Developer</div>
-                </div>
-                <div class="team-card card-white" data-name="Griselda">
-                    <div class="team-name">Griselda</div>
-                    <div class="team-role">Product Manager</div>
-                </div>
-                <div class="team-card card-yellow" data-name="Rafny">
-                    <div class="team-name">Rafny</div>
-                    <div class="team-role">Developer</div>
-                </div>
-            </div>
-            <div class="bottom-row">
-                <div class="card-yellow-small" data-name="Anastasya">
-                    <div class="team-name">Anastasya</div>
-                    <div class="team-role">Developer</div>
-                </div>
-                <div class="card-cyan-small" data-name="Afifah">
-                    <div class="team-name">Afifah</div>
-                    <div class="team-role">Developer</div>
-                </div>
-            </div>
-        </section>
-        
-        <div class="secret-hint" onclick="triggerOofSecret()">Do not press 'O'</div>
-    </div> 
-
-    <div class="modal-overlay" id="resultModal" onclick="closeModalOutside(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <img src="" id="modalImg" class="modal-img">
-            <h2 class="modal-title" id="modalTitle">Game Title</h2>
-            <p class="modal-desc" id="modalDesc">Description...</p>
-            <div class="modal-actions">
-                <button class="modal-btn-spin" onclick="resetAndSpin()">Spin Again</button>
-                <a href="#" id="modalLink" target="_blank" class="modal-btn-play">PLAY</a>
-            </div>
-            <button class="modal-close-text" onclick="closeModalOutside({target: document.getElementById('resultModal')})">Close</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="teamModal" onclick="closeTeamModal()">
-        <div class="modal-content team-modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close-btn" onclick="closeTeamModal()">X</button>
-            
-            <div class="nav-arrow arrow-left" onclick="prevTeamMember()">◀</div>
-            <div class="nav-arrow arrow-right" onclick="nextTeamMember()">▶</div>
-
-            <div id="teamModalContentWrapper">
-                <div class="team-layout-grid">
-                    <div class="team-big-avatar">
-                        <img src="" id="teamModalImg" alt="Avatar Anggota Tim">
-                    </div>
-                    <div class="team-details-grid">
-                        <div class="team-detail-box name-box">
-                            <strong>Nama:</strong>
-                            <span id="teamModalName">Nama Anggota</span>
-                        </div>
-                        <div class="team-detail-box role-box">
-                            <strong>Role:</strong>
-                            <span id="teamModalRole">Role Anggota</span>
-                        </div>
-                        <div class="team-detail-box major-box">
-                            <strong>Jurusan:</strong>
-                            <span>Produksi Media</span>
-                        </div>
-                        <div class="team-detail-box year-box">
-                            <strong>Angkatan:</strong>
-                            <span>2025</span>
-                        </div>
-                        <a href="#" id="teamModalLink" target="_blank" class="modal-btn-play team-roblox-link">Kunjungi akun roblox</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div id="genrePage">
-        <div class="genre-bg-mesh" id="dynamicBg"></div>
-        <div class="genre-color-overlay" id="colorOverlay"></div>
-        <div class="nav-arrow arrow-left" onclick="prevGenre()">◀</div>
-        <div class="nav-arrow arrow-right" onclick="nextGenre()">▶</div>
-        
-        <div id="genreContentWrapper">
-            <div class="genre-header">
-                <h2 class="genre-title" id="genreTitleText">Genre Name</h2>
-            </div>
-            <div class="game-grid">
-                <div class="big-card-wrapper">
-                    <div class="big-card" id="bigCard">
-                        <div class="big-content" id="bigCardContent">
-                            <div class="big-info-overlay">
-                                <div class="big-text-area">
-                                    <h2 id="bigTitle" style="font-size: 3.5rem; margin-bottom: 10px;">Game Title</h2>
-                                    <p id="bigDesc" style="font-size: 1.5rem; opacity: 0.9;">Description here...</p>
-                                </div>
-                                <a href="#" id="bigPlayLink" target="_blank" class="direct-play-btn">PLAY</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="small-grid" id="smallGrid"></div>
-            </div>
-        </div>
-        
-        <button class="back-menu-btn" onclick="closeGenre()">Back to Home</button>
-    </div>
-
-    <script>
-        // REVISI: Semua path C:/.../ diubah menjadi path relatif (hanya nama file)
-        const db = {
-            "Fashion": {
-                games: [
-                    { name: "Dress To Impress", img: "DRESS TO IMPRESS.webp", desc: "Show your best fashion style on the runway!", link: "https://www.roblox.com/games/15101393044/WICKED-Dress-To-Impress" },
-                    { name: "Adopt Me", img: "ADOPT ME.webp", desc: "Raise cute pets, dress them up, and trade.", link: "https://www.roblox.com/games/920587237/Adopt-Me" },
-                    { name: "Fashion Famous", img: "FASHION FAMOUS.webp", desc: "Compete to become the most famous top model.", link: "https://www.roblox.com/games/568350650/Fashion-Famous" },
-                    { name: "Brookhaven", img: "BROOKHAVEN.webp", desc: "Roleplay, buy houses, and drive cool cars.", link: "https://www.roblox.com/games/4924922222/Brookhaven-RP" },
-                    { name: "Royalloween", img: "ROYALLOWEEN.webp", desc: "A magical school experience with a spooky twist.", link: "https://www.roblox.com/games/735030788/Royalloween" }
-                ]
-            },
-            "Horror": {
-                games: [
-                    { name: "DOORS", img: "DOORS.webp", desc: "Navigate 100 doors without getting caught.", link: "https://www.roblox.com/games/6516141723/DOORS" },
-                    { name: "Silent Mansion", img: "SILENT MANSION.webp", desc: "Uncover the dark secrets of the mansion.", link: "https://www.roblox.com/games/18636608512/Silent-Mansion" },
-                    { name: "3008", img: "3008.webp", desc: "Survive in the infinite furniture store.", link: "https://www.roblox.com/games/2768379856/3008" },
-                    { name: "The Mimic", img: "THE MIMIC.webp", desc: "Experience horror based on Japanese folklore.", link: "https://www.roblox.com/games/6243699076/The-Mimic" },
-                    { name: "99 Nights in The Forest", img: "99 NIGHTS IN THE FOREST.webp", desc: "Survive the terrifying nights in the woods.", link: "https://www.roblox.com/games/79546208627805/99-Nights-in-the-Forest" }
-                ]
-            },
-            "Simulator": {
-                games: [
-                    { name: "Work At A Pizza Place", img: "WORK AT A PIZZA PLACE.webp", desc: "Cook pizzas, deliver orders, and manage the shop.", link: "https://www.roblox.com/games/192800/Work-at-a-Pizza-Place" },
-                    { name: "Be Fish", img: "BE FISH.webp", desc: "Explore the ocean life as a fish.", link: "https://www.roblox.com/games/94503612388426/Be-Fish" },
-                    { name: "Supermarket Simulator", img: "SUPERMARKET SIMULATOR.webp", desc: "Build and manage your own grocery empire.", link: "https://www.roblox.com/games/96462622512177/Supermarket-Simulator" },
-                    { name: "Bubble Gum Simulator", img: "BUBBLE GUM SIMULATOR.webp", desc: "Blow bubbles and collect rare pets.", link: "https://www.roblox.com/games/85896571713843/OG-Bubble-Gum-Simulator" },
-                    { name: "Pet Simulator X", img: "PET SIMULATOR X.webp", desc: "Collect coins and unlock legendary pets.", link: "https://www.roblox.com/games/6284583030/Pet-Simulator-X" }
-                ]
-            },
-            "Adventure": {
-                games: [
-                    { name: "Mount Daun", img: "MOUNT DAUN.webp", desc: "Climb the mountain and enjoy the scenery.", link: "https://www.roblox.com/games/102234703920418/Mount-Daun" },
-                    { name: "Backpacking", img: "BACKPACKING.webp", desc: "Set up camp and explore the open world.", link: "https://www.roblox.com/games/1997193809/Backpacking" },
-                    { name: "Expedition Antartica", img: "EXPEDITION ANTARTICA.webp", desc: "Survive the freezing expedition with friends.", link: "https://www.roblox.com/games/2693023319/Expedition-Antarctica" },
-                    { name: "Mount Sumbing", img: "MOUNT SUMBING.webp", desc: "Realistic hiking simulation in Indonesia.", link: "https://www.roblox.com/games/14963184269/Mount-Sumbing" },
-                    { name: "A Dusty Trip", img: "A DUSTY TRIP.webp", desc: "A long and challenging road trip adventure.", link: "https://www.roblox.com/games/16389395869/a-dusty-trip" }
-                ]
-            },
-            "Sport": {
-                games: [
-                    { name: "Racket Rivals", img: "RACKET RIVALS.webp", desc: "Intense competitive tennis matches.", link: "https://www.roblox.com/games/90906407195271/UPD-Racket-Rivals" },
-                    { name: "Super League Soccer", img: "SUPER LEAGUE SOCCER.webp", desc: "Play realistic 7v7 soccer matches.", link: "https://www.roblox.com/games/12177325772/FIFA-Super-League-Soccer" },
-                    { name: "Swim League", img: "SWIM LEAGUE.webp", desc: "Race in professional swimming competitions.", link: "https://www.roblox.com/games/132495346586140/2X-Swim-League" },
-                    { name: "Neo Tennis", img: "NEO TENNIS.webp", desc: "Futuristic tennis with special abilities.", link: "https://www.roblox.com/games/85056532479796/UPD-Neo-Tennis" },
-                    { name: "Volleyball Legends", img: "VOLLEYBALL LEGENDS.webp", desc: "Bump, set, and spike your way to victory.", link: "https://www.roblox.com/games/73956553001240/Volleyball-Legends" }
-                ]
-            },
-            "Special Pick": {
-                games: [
-                    { name: "Fish It", img: "FISH IT.webp", desc: "Relaxing fishing game with rare catches.", link: "https://www.roblox.com/games/121864768012064/Fish-It" },
-                    { name: "Grow A Garden", img: "GROW A GARDEN.webp", desc: "Plant seeds and cultivate your own garden.", link: "https://www.roblox.com/games/126884695634066/Grow-a-Garden" },
-                    { name: "The Apocalypse", img: "THE APOCALYPSE.webp", desc: "Survive the end of the world with friends.", link: "https://www.roblox.com/games/75519253084635/The-Apocalypse" },
-                    { name: "Forsaken", img: "FORSAKEN.webp", desc: "Explore a dark, abandoned world.", link: "https://www.roblox.com/games/18687417158/Forsaken" },
-                    { name: "Raise Animals", img: "RAISE ANIMALS.webp", desc: "Take care of various adorable animals.", link: "https://www.roblox.com/games/122826953758426/Raise-Animals" }
-                ]
-            }
-        };
-
-        // --- AUDIO ASSETS ---
-        const audioTick = new Audio('https://cdn.pixabay.com/audio/2023/05/23/audio_4763d52c35.mp3'); 
-        const audioWin = new Audio('https://cdn.pixabay.com/audio/2022/03/24/audio_1e6b78989b.mp3');  
-        const audioOof = new Audio('https://www.myinstants.com/media/sounds/roblox-death-sound_1.mp3'); 
-
-        // --- CUSTOM CURSOR LOGIC ---
-        const cursor = document.getElementById('customCursor');
-        let lastTrailTime = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            createTrail(e.clientX, e.clientY);
-        });
-
-        function createTrail(x, y) {
-            const now = Date.now();
-            if (now - lastTrailTime < 30) return; 
-            lastTrailTime = now;
-
-            const trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.left = x + 'px';
-            trail.style.top = y + 'px';
-            
-            document.body.appendChild(trail);
-            setTimeout(() => trail.remove(), 500);
-        }
-
-        const clickables = document.querySelectorAll('a, button, .top-card, .genre-btn, .small-card, .secret-hint, .team-card, .card-yellow-small, .card-cyan-small, .modal-close-btn, .nav-arrow');
-        clickables.forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
-
-        // --- LOGIKA REKOMENDASI ---
-        let currentGenreKeys = Object.keys(db);
-        let currentGenreIndex = 0;
-        let activeBigGame = null;
-        let activeSmallGames = [];
-        const genreContentWrapper = document.getElementById('genreContentWrapper');
-
-        function toggleMenu() { document.getElementById('menuPopup').classList.toggle('active'); }
-
-        document.querySelectorAll('.genre-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.classList.add('bouncing');
-                setTimeout(() => { this.classList.remove('bouncing'); }, 300);
-        
-                const genreName = this.dataset.genre;
-                setTimeout(() => {
-                    openGenre(genreName);
-                }, 150); 
-            });
-        });
-
-
-        function openGenre(genreName) {
-            currentGenreIndex = currentGenreKeys.indexOf(genreName);
-            // Panggil renderView untuk pertama kali
-            renderView(genreName, null, false); // isSwap = false
-            const page = document.getElementById('genrePage');
-            page.classList.add('active'); 
-            setTimeout(() => { 
-                page.classList.add('show'); 
-                // Atur posisi awal untuk animasi 'open'
-                genreContentWrapper.style.transition = 'none';
-                genreContentWrapper.style.transform = 'translateY(-50px)';
-                genreContentWrapper.style.opacity = '0';
-                
-                // Memicu animasi 'open'
-                setTimeout(() => {
-                    genreContentWrapper.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s';
-                    genreContentWrapper.style.transform = 'translateY(0)';
-                    genreContentWrapper.style.opacity = '1';
-
-                    // Animasikan small cards masuk
-                    document.querySelectorAll('#genrePage .small-card').forEach((c, i) => {
-                        c.style.transition = `all 0.7s ${i*0.1}s cubic-bezier(0.16, 1, 0.3, 1)`;
-                        c.style.transform = 'translateX(0)';
-                        c.style.opacity = '1';
-                    });
-                }, 20);
-            }, 10);
-        }
-
-        function closeGenre() {
-            const page = document.getElementById('genrePage');
-            page.classList.remove('show');
-            // Memicu animasi 'close'
-            genreContentWrapper.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s';
-            genreContentWrapper.style.transform = 'translateY(-50px)';
-            genreContentWrapper.style.opacity = '0';
-            document.querySelectorAll('#genrePage .small-card').forEach(c => {
-                    c.style.transition = 'all 0.3s ease'; 
-                    c.style.transform = 'translateX(150%)';
-                    c.style.opacity = '0';
-                });
-
-            setTimeout(() => { page.classList.remove('active'); }, 700);
-        }
-
-        function nextGenre() {
-            currentGenreIndex = (currentGenreIndex + 1) % currentGenreKeys.length;
-            let name = currentGenreKeys[currentGenreIndex];
-            renderView(name, 'next', false); // isSwap = false
-        }
-
-        function prevGenre() {
-            currentGenreIndex = (currentGenreIndex - 1 + currentGenreKeys.length) % currentGenreKeys.length;
-            let name = currentGenreKeys[currentGenreIndex];
-            renderView(name, 'prev', false); // isSwap = false
-        }
-
-        function initGenreData(name) {
-            const data = db[name];
-            let allGames = [...data.games];
-            activeBigGame = allGames[0];
-            activeSmallGames = allGames.slice(1, 5);
-        }
-
-        // renderView diperbarui dengan parameter isSwap
-        // isSwap = true HANYA jika dipanggil oleh swapCards
-        function renderView(genreName, direction, isSwap = false) {
-            let slideOutDir = '0px';
-            let slideInDir = '0px';
-
-            if (direction === 'next') {
-                slideOutDir = '-100px';
-                slideInDir = '100px';
-            } else if (direction === 'prev') {
-                slideOutDir = '100px';
-                slideInDir = '-100px';
-            }
-
-            const doRender = () => {
-                // Jika BUKAN swap, kita harus inisialisasi ulang datanya
-                if (!isSwap) {
-                    initGenreData(genreName);
-                }
-                
-                const data = db[genreName];
-                
-                document.getElementById('genreTitleText').innerText = genreName;
-                document.getElementById('dynamicBg').style.backgroundImage = `url('${activeBigGame.img}')`;
-                
-                document.getElementById('bigCardContent').style.backgroundImage = `url('${activeBigGame.img}')`;
-                document.getElementById('bigTitle').innerText = activeBigGame.name;
-                document.getElementById('bigDesc').innerText = activeBigGame.desc;
-                document.getElementById('bigPlayLink').href = activeBigGame.link;
-
-                const smallGrid = document.getElementById('smallGrid');
-                smallGrid.innerHTML = ''; 
-                activeSmallGames.forEach((game, index) => {
-                    const el = document.createElement('div');
-                    el.className = 'small-card';
-                    el.innerHTML = `<img src="${game.img}" alt="${game.name}">`;
-                    el.onclick = () => swapCards(index); // Selalu panggil swapCards
-                    
-                    if (isSwap) {
-                        // JIKA INI SWAP, buat kartu langsung terlihat.
-                        el.style.transform = 'translateX(0)';
-                        el.style.opacity = '1';
-                        el.style.transition = 'none'; // Hapus transisi agar instan
-                    }
-                    // Jika bukan swap (geser atau buka), biarkan CSS default (hidden)
-                    
-                    smallGrid.appendChild(el); 
-                });
-
-                // Jika ini animasi geser, siapkan posisi 'slide in'
-                if (direction) {
-                    genreContentWrapper.style.transition = 'none'; 
-                    genreContentWrapper.style.transform = `translateX(${slideInDir})`;
-                }
-                
-                // Memicu animasi 'slide in' (HANYA jika bergeser, BUKAN swap)
-                if (direction) {
-                    setTimeout(() => {
-                        genreContentWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease';
-                        genreContentWrapper.style.transform = 'translateX(0)';
-                        genreContentWrapper.style.opacity = '1';
-                        
-                        // Animasikan small cards masuk
-                        document.querySelectorAll('#genrePage .small-card').forEach((c, i) => {
-                             c.style.transition = `all 0.7s ${i*0.1}s cubic-bezier(0.16, 1, 0.3, 1)`;
-                            c.style.transform = 'translateX(0)';
-                            c.style.opacity = '1';
-                        });
-                    }, 20); 
-                }
-            };
-
-            if (direction) { // Geser KIRI/KANAN
-                genreContentWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease';
-                genreContentWrapper.style.transform = `translateX(${slideOutDir})`;
-                genreContentWrapper.style.opacity = '0';
-                setTimeout(doRender, 400); 
-            } else { // 'open' atau 'swap'
-                doRender();
-            }
-        }
-
-        // FUNGSI swapCards DIPERBAIKI
-        function swapCards(smallIndex) {
-            // 1. Tukar data di dalam array
-            const tempBig = activeBigGame;
-            activeBigGame = activeSmallGames[smallIndex];
-            activeSmallGames[smallIndex] = tempBig;
-            
-            // 2. Panggil renderView lagi, tapi tandai sebagai 'swap'
-            // 'null' untuk direction, 'true' untuk isSwap
-            // Ini akan me-render ulang konten secara instan tanpa animasi geser
-            renderView(currentGenreKeys[currentGenreIndex], null, true); 
-        }
-
-
-        // --- LOGIKA GACHA ---
-        const CARD_WIDTH = 180; 
-        const CARD_GAP = 20;    
-        const TOTAL_ITEM_WIDTH = CARD_WIDTH + CARD_GAP;
-        const VISIBLE_WIDTH = 1240; 
-        
-        let allGamesList = [];
-        Object.keys(db).forEach(key => {
-            allGamesList = allGamesList.concat(db[key].games);
-        });
-
-        function startGacha() {
-            const strip = document.getElementById('rouletteStrip');
-            const btn = document.getElementById('spinBtn');
-            const modal = document.getElementById('resultModal');
-
-            btn.disabled = true; 
-            modal.classList.remove('active'); 
-            strip.style.transition = 'none'; 
-            strip.style.transform = 'translateX(0px)';
-            strip.innerHTML = ''; 
-
-            let tickInterval = setInterval(() => {
-                audioTick.currentTime = 0; audioTick.volume = 0.5; audioTick.play();
-            }, 60); 
-
-            const winnerIndexRaw = Math.floor(Math.random() * allGamesList.length);
-            const winnerGame = allGamesList[winnerIndexRaw];
-            const TARGET_INDEX = 60; 
-            const TOTAL_CARDS = 70; 
-
-            let fillerGames = allGamesList.filter(game => game.name !== winnerGame.name);
-            for (let i = fillerGames.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [fillerGames[i], fillerGames[j]] = [fillerGames[j], fillerGames[i]];
-            }
-
-            let fillerIndex = 0;
-            for (let i = 0; i < TOTAL_CARDS; i++) {
-                let gameData;
-                if (i === TARGET_INDEX) {
-                    gameData = winnerGame; 
-                } else {
-                    gameData = fillerGames[fillerIndex % fillerGames.length];
-                    fillerIndex++;
-                }
-                const card = document.createElement('div');
-                card.className = 'roulette-card';
-                card.innerHTML = `<img src="${gameData.img}" alt="game">`;
-                strip.appendChild(card);
-            }
-
-            const targetPosition = -(TARGET_INDEX * TOTAL_ITEM_WIDTH) + (VISIBLE_WIDTH / 2) - (CARD_WIDTH / 2);
-
-            setTimeout(() => {
-                strip.style.transition = 'transform 4s cubic-bezier(0.1, 0.7, 0.1, 1)';
-                strip.style.transform = `translateX(${targetPosition}px)`;
-            }, 50);
-
-            setTimeout(() => {
-                clearInterval(tickInterval);
-                audioWin.currentTime = 0; audioWin.volume = 1.0; audioWin.play();
-                createRainEffect(winnerGame.img);
-
-                document.getElementById('modalImg').src = winnerGame.img;
-                document.getElementById('modalTitle').innerText = winnerGame.name;
-                document.getElementById('modalDesc').innerText = winnerGame.desc;
-                document.getElementById('modalLink').href = winnerGame.link;
-                modal.classList.add('active');
-                btn.disabled = false;
-            }, 4100); 
-        }
-
-        function resetAndSpin() {
-            document.getElementById('resultModal').classList.remove('active');
-            startGacha();
-        }
-
-        function closeModalOutside(event) {
-            if (event.target === document.getElementById('resultModal')) {
-                document.getElementById('resultModal').classList.remove('active');
-            }
-        }
-
-
-        // --- Logika Pop-up 'About Us' ---
-        // REVISI: Path diubah ke .webp
-        const teamData = {
-            "Navisa": { 
-                role: "Developer",
-                img: "PLACEHOLDER.webp", 
-                roblox: "https://www.roblox.com/users/12345/profile" 
-            },
-            "Griselda": { 
-                role: "Product Manager",
-                img: "PLACEHOLDER.webp", 
-                roblox: "https://www.roblox.com/users/12345/profile" 
-            },
-            "Rafny": { 
-                role: "Developer",
-                img: "PLACEHOLDER.webp", 
-                roblox: "https://www.roblox.com/users/12345/profile" 
-            },
-            "Anastasya": { 
-                role: "Developer",
-                img: "PLACEHOLDER.webp", 
-                roblox: "https://www.roblox.com/users/12345/profile" 
-            },
-            "Afifah": { 
-                role: "Developer",
-                img: "PLACEHOLDER.webp", 
-                roblox: "https://www.roblox.com/users/12345/profile" 
-            }
-        };
-
-        const teamOrder = ["Navisa", "Griselda", "Rafny", "Anastasya", "Afifah"];
-        let currentTeamIndex = 0;
-        const teamModalWrapper = document.getElementById('teamModalContentWrapper');
-
-        document.querySelectorAll('.team-card, .card-yellow-small, .card-cyan-small').forEach(card => {
-            card.addEventListener('click', () => {
-                const name = card.dataset.name;
-                currentTeamIndex = teamOrder.indexOf(name);
-                updateTeamModal(currentTeamIndex, null); 
-                document.getElementById('teamModal').classList.add('active');
-            });
-        });
-
-        function closeTeamModal() {
-            document.getElementById('teamModal').classList.remove('active');
-        }
-
-        function nextTeamMember() {
-            currentTeamIndex = (currentTeamIndex + 1) % teamOrder.length;
-            updateTeamModal(currentTeamIndex, 'next');
-        }
-
-        function prevTeamMember() {
-            currentTeamIndex = (currentTeamIndex - 1 + teamOrder.length) % teamOrder.length;
-            updateTeamModal(currentTeamIndex, 'prev');
-        }
-
-        function updateTeamModal(index, direction) {
-            const name = teamOrder[index];
-            const data = teamData[name];
-
-            if (!data) return;
-
-            let slideOutDir = '0px';
-            let slideInDir = '0px';
-
-            if (direction === 'next') {
-                slideOutDir = '-50px';
-                slideInDir = '50px';
-            } else if (direction === 'prev') {
-                slideOutDir = '50px';
-                slideInDir = '-50px';
-            }
-
-            const doRender = () => {
-                document.getElementById('teamModalImg').src = data.img;
-                document.getElementById('teamModalName').innerText = name;
-                document.getElementById('teamModalRole').innerText = data.role;
-                document.getElementById('teamModalLink').href = data.roblox;
-
-                if(direction) {
-                    teamModalWrapper.style.transition = 'none'; 
-                    teamModalWrapper.style.transform = `translateX(${slideInDir})`;
-                }
-                
-                setTimeout(() => {
-                    teamModalWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease';
-                    teamModalWrapper.style.transform = 'translateX(0)';
-                    teamModalWrapper.style.opacity = '1';
-                }, 20);
-            };
-
-            if (direction) {
-                teamModalWrapper.style.transform = `translateX(${slideOutDir})`;
-                teamModalWrapper.style.opacity = '0';
-                setTimeout(doRender, 400); 
-            } else {
-                teamModalWrapper.style.opacity = '0'; 
-                doRender(); 
-            }
-        }
-
-
-        // --- RAIN EFFECT ---
-        function createRainEffect(imgSrc) {
-            for(let i=0; i<40; i++) { 
-                setTimeout(() => {
-                    const img = document.createElement('img');
-                    img.src = imgSrc; 
-                    img.className = 'rain-drop';
-                    if(imgSrc.includes("OOF")) img.classList.add('oof-drop'); 
-                    
-                    img.style.left = Math.random() * 95 + "vw";
-                    img.style.width = (Math.random() * 50 + 40) + "px"; 
-                    img.style.animationDuration = (Math.random() * 2 + 2) + "s"; 
-                    document.body.appendChild(img);
-
-                    setTimeout(() => img.remove(), 5000); 
-                }, i * 50);
-            }
-        }
-
-        // --- SECRET OOF ---
-        document.addEventListener('keydown', (e) => {
-            if(e.key.toLowerCase() === 'o') {
-                triggerOofSecret();
-            }
-        });
-
-        function triggerOofSecret() {
-            audioOof.currentTime = 0;
-            audioOof.play();
-            // REVISI: Path diubah ke relatif
-            createRainEffect("OOF.webp");
-        }
-    </script>
+    <div id="customCursor"></div>
+
+    <div class="main-container">
+        
+        <section id="home-section">
+            <header>
+                <a href="#about" class="nav-link">About Us</a>
+                <div style="position: relative;">
+                    <a href="#" class="nav-link" onclick="toggleMenu()">Menu</a>
+                    <div id="menuPopup">
+                        <a href="#topgames">Top Games</a>
+                        <a href="#recommendation">Recommendation</a>
+                        <a href="#randomizer">Randomizer</a>
+                    </div>
+                </div>
+            </header>
+            <img src="ROBLOX ZONE.webp" alt="Roblox Zone Logo" class="roblox-zone-logo">
+            <p class="home-description">Temukan game Roblox favoritmu di sini!</p>
+        </section>
+
+        <section id="topgames">
+            <img src="TOP GAMES.webp" alt="Top Games" class="section-title-img img-top-games">
+            <div class="top-list">
+                <div class="top-card">
+                    <div class="rank-badge">1</div>
+                    <img src="FISH IT.webp" alt="Fish It">
+                    <div class="top-card-title">Fish It</div>
+                    <a href="https://www.roblox.com/games/121864768012064/Fish-It" target="_blank" class="top-play-btn">PLAY</a>
+                </div>
+                <div class="top-card">
+                    <div class="rank-badge">2</div>
+                    <img src="BROOKHAVEN.webp" alt="Brookhaven">
+                    <div class="top-card-title">Brookhaven</div>
+                    <a href="https://www.roblox.com/games/4924922222/Brookhaven-RP" target="_blank" class="top-play-btn">PLAY</a>
+                </div>
+                <div class="top-card">
+                    <div class="rank-badge">3</div>
+                    <img src="GROW A GARDEN.webp" alt="Grow A Garden">
+                    <div class="top-card-title">Grow A Garden</div>
+                    <a href="https://www.roblox.com/games/126884695634066/Grow-a-Garden" target="_blank" class="top-play-btn">PLAY</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="recommendation">
+            <img src="OUR RECOMMENDATION.webp" alt="Our Recommendation" class="section-title-img img-recommendation">
+            <div class="rec-menu">
+                <button class="genre-btn" data-genre="Fashion">Fashion</button>
+                <button class="genre-btn" data-genre="Horror">Horror</button>
+                <button class="genre-btn" data-genre="Simulator">Simulator</button>
+                <button class="genre-btn" data-genre="Adventure">Adventure</button>
+                <button class="genre-btn" data-genre="Sport">Sport</button>
+                <button class="genre-btn" data-genre="Special Pick">Special Pick</button>
+            </div>
+        </section>
+
+        <section id="randomizer">
+            <img src="RANDOMIZER.webp" alt="Randomizer" class="section-title-img img-randomizer">
+            <div class="roulette-container">
+                <div class="roulette-marker"></div> 
+                <div class="roulette-strip" id="rouletteStrip"></div>
+            </div>
+            <button class="btn-random-small" id="spinBtn" onclick="startGacha()">SPIN!</button>
+        </section>
+
+        <section id="about">
+             <img src="ABOUT US.webp" alt="About Us" class="section-title-img img-about">
+            <div class="team-grid">
+                <div class="team-card card-cyan" data-name="Navisa">
+                    <div class="team-name">Navisa</div>
+                    <div class="team-role">Developer</div>
+                </div>
+                <div class="team-card card-white" data-name="Griselda">
+                    <div class="team-name">Griselda</div>
+                    <div class="team-role">Product Manager</div>
+                </div>
+                <div class="team-card card-yellow" data-name="Rafny">
+    _
+                </div>
+            </div>
+            <div class="bottom-row">
+                <div class="card-yellow-small" data-name="Anastasya">
+                    <div class="team-name">Anastasya</div>
+                    <div class="team-role">Developer</div>
+                </div>
+                <div class="card-cyan-small" data-name="Afifah">
+                    <div class="team-name">Afifah</div>
+                    <div class="team-role">Developer</div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="secret-hint" onclick="triggerOofSecret()">Do not press 'O'</div>
+    </div> 
+
+    <div class="modal-overlay" id="resultModal" onclick="closeModalOutside(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img src="" id="modalImg" class="modal-img">
+            <h2 class="modal-title" id="modalTitle">Game Title</h2>
+            <p class="modal-desc" id="modalDesc">Description...</p>
+            <div class="modal-actions">
+                <button class="modal-btn-spin" onclick="resetAndSpin()">Spin Again</button>
+                <a href="#" id="modalLink" target="_blank" class="modal-btn-play">PLAY</a>
+            </div>
+            <button class="modal-close-text" onclick="closeModalOutside({target: document.getElementById('resultModal')})">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="teamModal" onclick="closeTeamModal()">
+        <div class="modal-content team-modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeTeamModal()">X</button>
+            
+            <div class="nav-arrow arrow-left" onclick="prevTeamMember()">◀</div>
+            <div class="nav-arrow arrow-right" onclick="nextTeamMember()">▶</div>
+
+            <div id="teamModalContentWrapper">
+                <div class="team-layout-grid">
+                    <div class="team-big-avatar">
+                        <img src="" id="teamModalImg" alt="Avatar Anggota Tim">
+                    </div>
+                    <div class="team-details-grid">
+                        <div class="team-detail-box name-box">
+                            <strong>Nama:</strong>
+                            <span id="teamModalName">Nama Anggota</span>
+                        </div>
+                        <div class="team-detail-box role-box">
+                            <strong>Role:</strong>
+                            <span id="teamModalRole">Role Anggota</span>
+                        </div>
+                        <div class="team-detail-box major-box">
+                            <strong>Jurusan:</strong>
+                            <span>Produksi Media</span>
+                        </div>
+                        <div class="team-detail-box year-box">
+                            <strong>Angkatan:</strong>
+                            <span>2025</span>
+                        </div>
+                        <a href="#" id="teamModalLink" target="_blank" class="modal-btn-play team-roblox-link">Kunjungi akun roblox</a>
+                                                <a href="#" target="_blank" class="modal-btn-play team-roblox-link">Kunjungi Akun IG</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="genrePage">
+        <div class="genre-bg-mesh" id="dynamicBg"></div>
+        <div class="genre-color-overlay" id="colorOverlay"></div>
+        <div class="nav-arrow arrow-left" onclick="prevGenre()">◀</div>
+        <div class="nav-arrow arrow-right" onclick="nextGenre()">▶</div>
+        
+        <div id="genreContentWrapper">
+            <div class="genre-header">
+                <h2 class="genre-title" id="genreTitleText">Genre Name</h2>
+            </div>
+            <div class="game-grid">
+                <div class="big-card-wrapper">
+                    <div class="big-card" id="bigCard">
+                        <div class="big-content" id="bigCardContent">
+                            <div class="big-info-overlay">
+                                <div class="big-text-area">
+              _
+                                </div>
+                                <a href="#" id="bigPlayLink" target="_blank" class="direct-play-btn">PLAY</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="small-grid" id="smallGrid"></div>
+            </div>
+        </div>
+        
+        <button class="back-menu-btn" onclick="closeGenre()">Back to Home</button>
+    </div>
+
+    <script>
+        // REVISI: Semua path C:/.../ diubah menjadi path relatif (hanya nama file)
+        const db = {
+            "Fashion": {
+                games: [
+                    { name: "Dress To Impress", img: "DRESS TO IMPRESS.webp", desc: "Show your best fashion style on the runway!", link: "https://www.roblox.com/games/15101393044/WICKED-Dress-To-Impress" },
+                    { name: "Adopt Me", img: "ADOPT ME.webp", desc: "Raise cute pets, dress them up, and trade.", link: "https://www.roblox.com/games/920587237/Adopt-Me" },
+                    { name: "Fashion Famous", img: "FASHION FAMOUS.webp", desc: "Compete to become the most famous top model.", link: "https://www.roblox.com/games/568350650/Fashion-Famous" },
+                    { name: "Brookhaven", img: "BROOKHAVEN.webp", desc: "Roleplay, buy houses, and drive cool cars.", link: "https://www.roblox.com/games/4924922222/Brookhaven-RP" },
+                    { name: "Royalloween", img: "ROYALLOWEEN.webp", desc: "A magical school experience with a spooky twist.", link: "https://www.roblox.com/games/735030788/Royalloween" }
+                ]
+            },
+            "Horror": {
+                games: [
+                    { name: "DOORS", img: "DOORS.webp", desc: "Navigate 100 doors without getting caught.", link: "https://www.roblox.com/games/6516141723/DOORS" },
+                    { name: "Silent Mansion", img: "SILENT MANSION.webp", desc: "Uncover the dark secrets of the mansion.", link: "https://www.roblox.com/games/18636608512/Silent-Mansion" },
+                    { name: "3008", img: "3008.webp", desc: "Survive in the infinite furniture store.", link: "https://www.roblox.com/games/2768379856/3008" },
+                    { name: "The Mimic", img: "THE MIMIC.webp", desc: "Experience horror based on Japanese folklore.", link: "https://www.roblox.com/games/6243699076/The-Mimic" },
+                    { name: "99 Nights in The Forest", img: "99 NIGHTS IN THE FOREST.webp", desc: "Survive the terrifying nights in the woods.", link: "https://www.roblox.com/games/79546208627805/99-Nights-in-the-Forest" }
+                ]
+            },
+            "Simulator": {
+                games: [
+                    { name: "Work At A Pizza Place", img: "WORK AT A PIZZA PLACE.webp", desc: "Cook pizzas, deliver orders, and manage the shop.", link: "https://www.roblox.com/games/192800/Work-at-a-Pizza-Place" },
+          _
+                ]
+            },
+            "Adventure": {
+                games: [
+                    { name: "Mount Daun", img: "MOUNT DAUN.webp", desc: "Climb the mountain and enjoy the scenery.", link: "https://www.roblox.com/games/102234703920418/Mount-Daun" },
+                    { name: "Backpacking", img: "BACKPACKING.webp", desc: "Set up camp and explore the open world.", link: "https://www.roblox.com/games/1997193809/Backpacking" },
+                    { name: "Expedition Antartica", img: "EXPEDITION ANTARTICA.webp", desc: "Survive the freezing expedition with friends.", link: "https://www.roblox.com/games/2693023319/Expedition-Antarctica" },
+                    { name: "Mount Sumbing", img: "MOUNT SUMBING.webp", desc: "Realistic hiking simulation in Indonesia.", link: "https://www.roblox.com/games/14963184269/Mount-Sumbing" },
+                    { name: "A Dusty Trip", img: "A DUSTY TRIP.webp", desc: "A long and challenging road trip adventure.", link: "https://www.roblox.com/games/16389395869/a-dusty-trip" }
+                ]
+            },
+            "Sport": {
+                games: [
+                    { name: "Racket Rivals", img: "RACKET RIVALS.webp", desc: "Intense competitive tennis matches.", link: "https://www.roblox.com/games/90906407195271/UPD-Racket-Rivals" },
+                    { name: "Super League Soccer", img: "SUPER LEAGUE SOCCER.webp", desc: "Play realistic 7v7 soccer matches.", link: "https://www.roblox.com/games/12177325772/FIFA-Super-League-Soccer" },
+                    { name: "Swim League", img: "SWIM LEAGUE.webp", desc: "Race in professional swimming competitions.", link: "https://www.roblox.com/games/132495346586140/2X-Swim-League" },
+                    { name: "Neo Tennis", img: "NEO TENNIS.webp", desc: "Futuristic tennis with special abilities.", link: "https://www.roblox.com/games/85056532479796/UPD-Neo-Tennis" },
+                    { name: "Volleyball Legends", img: "VOLLEYBALL LEGENDS.webp", desc: "Bump, set, and spike your way to victory.", link: "https://www.roblox.com/games/73956553001240/Volleyball-Legends" }
+                ]
+            },
+            "Special Pick": {
+                games: [
+                    { name: "Fish It", img: "FISH IT.webp", desc: "Relaxing fishing game with rare catches.", link: "https://www.roblox.com/games/121864768012064/Fish-It" },
+                    { name: "Grow A Garden", img: "GROW A GARDEN.webp", desc: "Plant seeds and cultivate your own garden.", link: "https://www.roblox.com/games/126884695634066/Grow-a-Garden" },
+                    { name: "The Apocalypse", img: "THE APOCALYPSE.webp", desc: "Survive the end of the world with friends.", link: "https://www.roblox.com/games/75519253084635/The-Apocalypse" },
+                    { name: "Forsaken", img: "FORSAKEN.webp", desc: "Explore a dark, abandoned world.", link: "https://www.roblox.com/games/18687417158/Forsaken" },
+                    { name: "Raise Animals", img: "RAISE ANIMALS.webp", desc: "Take care of various adorable animals.", link: "https://www.roblox.com/games/122826953758426/Raise-Animals" }
+      _
+        };
+
+        // --- AUDIO ASSETS ---
+        const audioTick = new Audio('https://cdn.pixabay.com/audio/2023/05/23/audio_4763d52c35.mp3'); 
+        const audioWin = new Audio('https://cdn.pixabay.com/audio/2022/03/24/audio_1e6b78989b.mp3');  
+        const audioOof = new Audio('https://www.myinstants.com/media/sounds/roblox-death-sound_1.mp3'); 
+
+        // --- CUSTOM CURSOR LOGIC ---
+        const cursor = document.getElementById('customCursor');
+        let lastTrailTime = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            createTrail(e.clientX, e.clientY);
+        });
+
+        function createTrail(x, y) {
+            const now = Date.now();
+            if (now - lastTrailTime < 30) return; 
+            lastTrailTime = now;
+
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = x + 'px';
+            trail.style.top = y + 'px';
+            
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 500);
+        }
+
+        const clickables = document.querySelectorAll('a, button, .top-card, .genre-btn, .small-card, .secret-hint, .team-card, .card-yellow-small, .card-cyan-small, .modal-close-btn, .nav-arrow');
+        clickables.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // --- LOGIKA REKOMENDASI ---
+        let currentGenreKeys = Object.keys(db);
+        let currentGenreIndex = 0;
+        let activeBigGame = null;
+        let activeSmallGames = [];
+        const genreContentWrapper = document.getElementById('genreContentWrapper');
+
+        function toggleMenu() { document.getElementById('menuPopup').classList.toggle('active'); }
+
+        document.querySelectorAll('.genre-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.add('bouncing');
+                setTimeout(() => { this.classList.remove('bouncing'); }, 300);
+        
+                const genreName = this.dataset.genre;
+                setTimeout(() => {
+                    openGenre(genreName);
+                }, 150); 
+            });
+        });
+
+
+        function openGenre(genreName) {
+            currentGenreIndex = currentGenreKeys.indexOf(genreName);
+            // Panggil renderView untuk pertama kali
+            renderView(genreName, null, false); // isSwap = false
+            const page = document.getElementById('genrePage');
+            page.classList.add('active'); 
+            setTimeout(() => { 
+                page.classList.add('show'); 
+                // Atur posisi awal untuk animasi 'open'
+                genreContentWrapper.style.transition = 'none';
+                genreContentWrapper.style.transform = 'translateY(-50px)';
+                genreContentWrapper.style.opacity = '0';
+                
+                // Memicu animasi 'open'
+                setTimeout(() => {
+                    genreContentWrapper.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s';
+                    genreContentWrapper.style.transform = 'translateY(0)';
+                    genreContentWrapper.style.opacity = '1';
+
+                    // Animasikan small cards masuk
+                    document.querySelectorAll('#genrePage .small-card').forEach((c, i) => {
+                        c.style.transition = `all 0.7s ${i*0.1}s cubic-bezier(0.16, 1, 0.3, 1)`;
+                        c.style.transform = 'translateX(0)';
+                        c.style.opacity = '1';
+                    });
+                }, 20);
+            }, 10);
+        }
+
+        function closeGenre() {
+            const page = document.getElementById('genrePage');
+            page.classList.remove('show');
+            // Memicu animasi 'close'
+            genreContentWrapper.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s';
+            genreContentWrapper.style.transform = 'translateY(-50px)';
+            genreContentWrapper.style.opacity = '0';
+            document.querySelectorAll('#genrePage .small-card').forEach(c => {
+                    c.style.transition = 'all 0.3s ease'; 
+                    c.style.transform = 'translateX(150%)';
+                    c.style.opacity = '0';
+                });
+
+            setTimeout(() => { page.classList.remove('active'); }, 700);
+        }
+
+        function nextGenre() {
+            currentGenreIndex = (currentGenreIndex + 1) % currentGenreKeys.length;
+            let name = currentGenreKeys[currentGenreIndex];
+            renderView(name, 'next', false); // isSwap = false
+        }
+
+        function prevGenre() {
+            currentGenreIndex = (currentGenreIndex - 1 + currentGenreKeys.length) % currentGenreKeys.length;
+            let name = currentGenreKeys[currentGenreIndex];
+            renderView(name, 'prev', false); // isSwap = false
+        }
+
+        function initGenreData(name) {
+            const data = db[name];
+            let allGames = [...data.games];
+            activeBigGame = allGames[0];
+            activeSmallGames = allGames.slice(1, 5);
+        }
+
+        // renderView diperbarui dengan parameter isSwap
+        // isSwap = true HANYA jika dipanggil oleh swapCards
+        function renderView(genreName, direction, isSwap = false) {
+            let slideOutDir = '0px';
+            let slideInDir = '0px';
+
+            if (direction === 'next') {
+                slideOutDir = '-100px';
+                slideInDir = '100px';
+            } else if (direction === 'prev') {
+                slideOutDir = '100px';
+                slideInDir = '-100px';
+            }
+
+            const doRender = () => {
+                // Jika BUKAN swap, kita harus inisialisasi ulang datanya
+                if (!isSwap) {
+                    initGenreData(genreName);
+                }
+                
+                const data = db[genreName];
+                
+                document.getElementById('genreTitleText').innerText = genreName;
+                document.getElementById('dynamicBg').style.backgroundImage = `url('${activeBigGame.img}')`;
+                
+                document.getElementById('bigCardContent').style.backgroundImage = `url('${activeBigGame.img}')`;
+                document.getElementById('bigTitle').innerText = activeBigGame.name;
+                document.getElementById('bigDesc').innerText = activeBigGame.desc;
+                document.getElementById('bigPlayLink').href = activeBigGame.link;
+
+                const smallGrid = document.getElementById('smallGrid');
+                smallGrid.innerHTML = ''; 
+                activeSmallGames.forEach((game, index) => {
+                    const el = document.createElement('div');
+                    el.className = 'small-card';
+                    el.innerHTML = `<img src="${game.img}" alt="${game.name}">`;
+                    el.onclick = () => swapCards(index); // Selalu panggil swapCards
+                    
+                    if (isSwap) {
+                        // JIKA INI SWAP, buat kartu langsung terlihat.
+                        el.style.transform = 'translateX(0)';
+                        el.style.opacity = '1';
+                        el.style.transition = 'none'; // Hapus transisi agar instan
+                    }
+                    // Jika bukan swap (geser atau buka), biarkan CSS default (hidden)
+                    
+                    smallGrid.appendChild(el); 
+                });
+
+                // Jika ini animasi geser, siapkan posisi 'slide in'
+                if (direction) {
+                    genreContentWrapper.style.transition = 'none'; 
+                    genreContentWrapper.style.transform = `translateX(${slideInDir})`;
+                }
+                
+                // Memicu animasi 'slide in' (HANYA jika bergeser, BUKAN swap)
+                if (direction) {
+                    setTimeout(() => {
+                        genreContentWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease';
+                        genreContentWrapper.style.transform = 'translateX(0)';
+                        genreContentWrapper.style.opacity = '1';
+                        
+                    D
+                        // Animasikan small cards masuk
+                        document.querySelectorAll('#genrePage .small-card').forEach((c, i) => {
+                             c.style.transition = `all 0.7s ${i*0.1}s cubic-bezier(0.16, 1, 0.3, 1)`;
+                            c.style.transform = 'translateX(0)';
+                            c.style.opacity = '1';
+                        });
+                    }, 20); 
+                }
+            };
+
+            if (direction) { // Geser KIRI/KANAN
+                genreContentWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease';
+                genreContentWrapper.style.transform = `translateX(${slideOutDir})`;
+                genreContentWrapper.style.opacity = '0';
+                setTimeout(doRender, 400); 
+            } else { // 'open' atau 'swap'
+                doRender();
+            }
+        }
+
+        // FUNGSI swapCards DIPERBAIKI
+        function swapCards(smallIndex) {
+            // 1. Tukar data di dalam array
+            const tempBig = activeBigGame;
+            activeBigGame = activeSmallGames[smallIndex];
+            activeSmallGames[smallIndex] = tempBig;
+            
+            // 2. Panggil renderView lagi, tapi tandai sebagai 'swap'
+            // 'null' untuk direction, 'true' untuk isSwap
+            // Ini akan me-render ulang konten secara instan tanpa animasi geser
+            renderView(currentGenreKeys[currentGenreIndex], null, true); 
+        }
+
+
+        // --- LOGIKA GACHA ---
+        const CARD_WIDTH = 180; 
+        const CARD_GAP = 20;    
+        const TOTAL_ITEM_WIDTH = CARD_WIDTH + CARD_GAP;
+        const VISIBLE_WIDTH = 1240; 
+        
+        let allGamesList = [];
+        Object.keys(db).forEach(key => {
+            allGamesList = allGamesList.concat(db[key].games);
+        });
+
+        function startGacha() {
+            const strip = document.getElementById('rouletteStrip');
+            const btn = document.getElementById('spinBtn');
+            const modal = document.getElementById('resultModal');
+
+            btn.disabled = true; 
+            modal.classList.remove('active'); 
+            strip.style.transition = 'none'; 
+            strip.style.transform = 'translateX(0px)';
+            strip.innerHTML = ''; 
+
+            let tickInterval = setInterval(() => {
+                audioTick.currentTime = 0; audioTick.volume = 0.5; audioTick.play();
+            }, 60); 
+
+            const winnerIndexRaw = Math.floor(Math.random() * allGamesList.length);
+            const winnerGame = allGamesList[winnerIndexRaw];
+            const TARGET_INDEX = 60; 
+            const TOTAL_CARDS = 70; 
+
+            let fillerGames = allGamesList.filter(game => game.name !== winnerGame.name);
+            for (let i = fillerGames.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [fillerGames[i], fillerGames[j]] = [fillerGames[j], fillerGames[i]];
+            }
+
+            let fillerIndex = 0;
+            for (let i = 0; i < TOTAL_CARDS; i++) {
+                let gameData;
+                if (i === TARGET_INDEX) {
+                    gameData = winnerGame;DA
+                } else {
+                    gameData = fillerGames[fillerIndex % fillerGames.length];
+                    fillerIndex++;
+                }
+                const card = document.createElement('div');
+                card.className = 'roulette-card';
+                card.innerHTML = `<img src="${gameData.img}" alt="game">`;
+                strip.appendChild(card);
+            }
+
+            const targetPosition = -(TARGET_INDEX * TOTAL_ITEM_WIDTH) + (VISIBLE_WIDTH / 2) - (CARD_WIDTH / 2);
+
+            setTimeout(() => {
+                strip.style.transition = 'transform 4s cubic-bezier(0.1, 0.7, 0.1, 1)';
+                strip.style.transform = `translateX(${targetPosition}px)`;
+            }, 50);
+
+            setTimeout(() => {
+                clearInterval(tickInterval);
+                audioWin.currentTime = 0; audioWin.volume = 1.0; audioWin.play();
+                createRainEffect(winnerGame.img);
+
+                document.getElementById('modalImg').src = winnerGame.img;
+                document.getElementById('modalTitle').innerText = winnerGame.name;
+                document.getElementById('modalDesc').innerText = winnerGame.desc;
+                document.getElementById('modalLink').href = winnerGame.link;
+                modal.classList.add('active');
+                btn.disabled = false;
+            }, 4100); 
+        }
+
+        function resetAndSpin() {
+            document.getElementById('resultModal').classList.remove('active');
+            startGacha();
+        }
+
+        function closeModalOutside(event) {
+            if (event.target === document.getElementById('resultModal')) {
+                document.getElementById('resultModal').classList.remove('active');
+            }
+        }
+
+
+        // --- Logika Pop-up 'About Us' ---
+        /* REVISI: Path diubah ke .webp dan link roblox diperbarui */
+        const teamData = {
+            "Navisa": { 
+                role: "Developer",
+                img: "Navisa.webp", 
+                roblox: "https://www.roblox.com/share?code=b082a12793192f4d8d153c0510b6213e&type=Profile&source=ProfileShare&stamp=1763438799505" 
+            },
+            "Griselda": { 
+                role: "Product Manager",
+                img: "Griselda.webp",d
+                roblox: "https://www.roblox.com/share?code=bf51b0289ef77a48a9e6a4eec0df0292&type=Profile&source=ProfileShare&stamp=1763438729230" 
+            },
+            "Rafny": { 
+                role: "Developer",
+                img: "Rafny.webp",s
+                roblox: "https://www.roblox.com/share?code=8a03f40fd247a340bf9dc42ad819ab49&type=Profile&source=ProfileShare&stamp=1763438800158" 
+            },
+            "Anastasya": { 
+                role: "Developer",
+                img: "Anastasya.webp", 
+                roblox: "https://www.roblox.com/share?code=a6d80d3cff972945a2897a74f6eb0918&type=Profile&source=ProfileShare&stamp=1763439467196" 
+        _
+            "Afifah": { 
+                role: "Developer",
+                img: "Afifah.webp", 
+                roblox: "https://www.roblox.com/share?code=b49b16128c41884b9affe251969ec849&type=Profile&source=ProfileShare&stamp=1763438685551" 
+            }
+        };
+
+        const teamOrder = ["Navisa", "Griselda", "Rafny", "Anastasya", "Afifah"];
+        let currentTeamIndex = 0;
+        const teamModalWrapper = document.getElementById('teamModalContentWrapper');
+
+        document.querySelectorAll('.team-card, .card-yellow-small, .card-cyan-small').forEach(card => {
+            card.addEventListener('click', () => {
+                const name = card.dataset.name;
+                currentTeamIndex = teamOrder.indexOf(name);
+                updateTeamModal(currentTeamIndex, null); 
+                document.getElementById('teamModal').classList.add('active');
+            });
+        });
+
+        function closeTeamModal() {
+            document.getElementById('teamModal').classList.remove('active');
+        }
+
+        function nextTeamMember() {
+            currentTeamIndex = (currentTeamIndex + 1) % teamOrder.length;
+section class=MsoNormalCxSpFirst style='margin-bottom:0cm;margin-bottom:.0001pt;
+text-align:justify;line-height:normal'><span lang=IN style='font-size:12.0pt;
+font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>          updateTeamModal(currentTeamIndex, 'next');
+        }
+
+        function prevTeamMember() {
+            currentTeamIndex = (currentTeamIndex - 1 + teamOrder.length) % teamOrder.length;
+            updateTeamModal(currentTeamIndex, 'prev');
+        }
+
+        function updateTeamModal(index, direction) {
+            const name = teamOrder[index];
+            const data = teamData[name];
+
+            if (!data) return;
+
+            let slideOutDir = '0px';
+            let slideInDir = '0px';
+
+            if (direction === 'next') {
+                slideOutDir = '-50px';
+                slideInDir = '50px';
+            } else if (direction === 'prev') {
+                slideOutDir = '50px';
+                slideInDir = '-50px';
+            }
+
+            const doRender = () => {
+                document.getElementById('teamModalImg').src = data.img;
+  T             document.getElementById('teamModalName').innerText = name;
+                document.getElementById('teamModalRole').innerText = data.role;
+                document.getElementById('teamModalLink').href = data.roblox;
+
+                if(direction) {
+                    teamModalWrapper.style.transition = 'none';s
+                    teamModalWrapper.style.transform = `translateX(${slideInDir})`;
+                }
+                
+                setTimeout(() => {
+                    teamModalWrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease';
+                    teamModalWrapper.style.transform = 'translateX(0)';
+                    teamModalWrapper.style.opacity = '1';
+end-span
+                }, 20);
+            };
+
+            if (direction) {
+                teamModalWrapper.style.transform = `translateX(${slideOutDir})`;
+                teamModalWrapper.style.opacity = '0';
+                setTimeout(doRender, 400); 
+            } else {
+                teamModalWrapper.style.opacity = '0'; 
+                doRender(); 
+            }
+        }
+
+
+        // --- RAIN EFFECT ---
+s      function createRainEffect(imgSrc) {
+            for(let i=0; i<40; i++) { 
+                setTimeout(() => {
+                    const img = document.createElement('img');
+                    img.src = imgSrc; 
+                    img.className = 'rain-drop';
+section class=MsoNormalCxSpMiddle style='margin-bottom:0cm;margin-bottom:.0001pt;
+text-align:justify;line-height:normal'><span lang=IN style='font-size:12.0pt;
+font-family:"Times New Roman",serif;mso-fareast-font-family:"Times New Roman"'>                    if(imgSrc.includes("OOF")) img.classList.add('oof-drop'); 
+                    
+                    img.style.left = Math.random() * 95 + "vw";
+                    img.style.width = (Math.random() * 50 + 40) + "px"; 
+                    img.style.animationDuration = (Math.random() * 2 + 2) + "s"; 
+                    document.body.appendChild(img);
+
+                    setTimeout(() => img.remove(), 5000); 
+                }, i * 50);
+            }
+        }
+
+        // --- SECRET OOF ---
+        document.addEventListener('keydown', (e) => {
+            if(e.key.toLowerCase() === 'o') {
+                triggerOofSecret();
+G          }
+        });
+
+        function triggerOofSecret() {
+            audioOof.currentTime = 0;
+            audioOof.play();
+            // REVISI: Path diubah ke relatif
+            createRainEffect("OOF.webp");
+        }
+    </script>
 </body>
 </html>
