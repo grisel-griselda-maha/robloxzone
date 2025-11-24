@@ -2,7 +2,7 @@ Roblox Zone
 
 Roblox Zone adalah sebuah platform web interaktif yang dirancang khusus untuk komunitas pemain Roblox di Indonesia. Tujuan utama website ini adalah memecahkan masalah klasik yang sering dihadapi pemain: "Bingung mau main game apa hari ini?". Dengan antarmuka yang modern, penuh animasi, dan responsif, Roblox Zone menyediakan kurasi game terbaik, rekomendasi berdasarkan genre, hingga fitur Randomizer (Gacha) untuk memilih game secara acak dengan cara yang menyenangkan. Website ini memberikan pengalaman pengguna yang imersif melalui efek visual dan audio yang menarik.
 
-2. Fitur Unggulan
+Fitur Unggulan
 
 Top Games Showcase: Menampilkan 3 game terpopuler saat ini dengan peringkat visual, memudahkan pengguna melihat tren terkini.
 
